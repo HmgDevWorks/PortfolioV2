@@ -171,7 +171,7 @@ export default function CVModal({ isOpen, onClose, language }: CVModalProps) {
 
                 pdf.setFont('helvetica', 'normal');
                 pdf.setTextColor(16, 185, 129);
-                const dateRange = `${exp.company || ''} | ${formatDate(exp.startDate)} - ${exp.current ? content[language].current : formatDate(exp.endDate)}`;
+                const dateRange = `${exp.company || ''} | ${formatDate(exp.startDate)} - ${exp.current ? content[language].current : formatDate(exp.endDate || '')}`;
                 pdf.text(dateRange, margin, yPosition);
                 yPosition += 4;
 
@@ -415,7 +415,7 @@ export default function CVModal({ isOpen, onClose, language }: CVModalProps) {
                                                     {language === 'es' ? exp.position || '' : exp.positionEn || ''}
                                                 </h3>
                                                 <p className="text-emerald-600 font-medium">
-                                                    {exp.company || ''} | {formatDate(exp.startDate)} - {exp.current ? content[language].current : formatDate(exp.endDate)}
+                                                    {exp.company || ''} | {formatDate(exp.startDate)} - {exp.current ? content[language].current : formatDate(exp.endDate || '')}
                                                 </p>
                                                 <p className="text-slate-700 mt-2">
                                                     {language === 'es' ? exp.description : exp.descriptionEn}
