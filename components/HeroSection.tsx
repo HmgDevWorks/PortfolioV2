@@ -149,7 +149,7 @@ export default function HeroSection({ language }: HeroSectionProps) {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.6, delay: 0.8 }}
-                        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+                        className="absolute bottom-2 left-1/2 transform -translate-x-1/2"
                     >
                         <motion.div
                             animate={{ y: [0, 10, 0] }}

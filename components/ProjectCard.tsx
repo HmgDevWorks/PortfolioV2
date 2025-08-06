@@ -1,112 +1,142 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ExternalLink, Github, Code } from 'lucide-react';
+import { ExternalLink, Github, ArrowRight, Code } from 'lucide-react';
 import { Project } from '@/types';
 
 interface ProjectCardProps {
     project: Project;
     language: 'es' | 'en';
+    index?: number;
 }
 
-export default function ProjectCard({ project, language }: ProjectCardProps) {
+export default function ProjectCard({ project, language, index = 0 }: ProjectCardProps) {
+    const techColors: { [key: string]: string } = {
+        'React': 'bg-blue-100 text-blue-800',
+        'Next.js': 'bg-slate-100 text-slate-800',
+        'Node.js': 'bg-green-100 text-green-800',
+        'TypeScript': 'bg-blue-100 text-blue-800',
+        'Python': 'bg-yellow-100 text-yellow-800',
+        'MongoDB': 'bg-green-100 text-green-800',
+        'PostgreSQL': 'bg-indigo-100 text-indigo-800',
+        'Tailwind': 'bg-cyan-100 text-cyan-800',
+        'Laravel': 'bg-red-100 text-red-800',
+        'PHP': 'bg-purple-100 text-purple-800',
+        'MySQL': 'bg-orange-100 text-orange-800',
+        'Unity': 'bg-gray-100 text-gray-800',
+        'C#': 'bg-purple-100 text-purple-800',
+        'Expo': 'bg-blue-100 text-blue-800',
+        'React Native': 'bg-cyan-100 text-cyan-800',
+        'JavaScript': 'bg-yellow-100 text-yellow-800',
+        'HTML': 'bg-orange-100 text-orange-800',
+        'CSS': 'bg-blue-100 text-blue-800',
+        'DomPDF': 'bg-red-100 text-red-800',
+        'Android': 'bg-green-100 text-green-800',
+    };
+
     return (
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.6, delay: index * 0.1 }}
             viewport={{ once: true }}
-            className="bg-slate-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group"
+            className="group"
         >
-            {/* Project Image */}
-            <div className="relative h-48 overflow-hidden">
-                {project.image ? (
-                    <img
-                        src={project.image}
-                        alt={language === 'es' ? project.title : project.titleEn}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        onError={(e) => {
-                            // Fallback to placeholder if image fails to load
-                            const target = e.target as HTMLImageElement;
-                            target.style.display = 'none';
-                            target.nextElementSibling?.classList.remove('hidden');
-                        }}
-                    />
-                ) : null}
+            <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl overflow-hidden hover:border-emerald-500/30 transition-all duration-500 hover:shadow-2xl hover:shadow-emerald-500/10">
+                {/* Project Image */}
+                <div className="relative overflow-hidden aspect-video">
+                    {project.image ? (
+                        <motion.img
+                            whileHover={{ scale: 1.05 }}
+                            transition={{ duration: 0.6 }}
+                            src={project.image}
+                            alt={language === 'es' ? project.title : project.titleEn}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.style.display = 'none';
+                                target.nextElementSibling?.classList.remove('hidden');
+                            }}
+                        />
+                    ) : null}
 
-                {/* Fallback placeholder */}
-                <div className={`w-full h-full bg-gradient-to-br from-emerald-500/20 to-blue-500/20 flex items-center justify-center ${project.image ? 'hidden' : ''}`}>
-                    <Code size={48} className="text-emerald-400" />
-                </div>
+                    {/* Fallback placeholder */}
+                    <div className={`w-full h-full bg-gradient-to-br from-emerald-500/20 to-blue-500/20 flex items-center justify-center ${project.image ? 'hidden' : ''}`}>
+                        <Code size={48} className="text-emerald-400" />
+                    </div>
 
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                {/* Category Badge */}
-                <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 bg-emerald-500 text-white text-xs font-semibold rounded-full">
-                        {project.category}
-                    </span>
-                </div>
-            </div>
-
-            {/* Project Content */}
-            <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-2">
-                    {language === 'es' ? project.title : project.titleEn}
-                </h3>
-                <p className="text-slate-300 text-sm mb-4 line-clamp-3">
-                    {language === 'es' ? project.description : project.descriptionEn}
-                </p>
-
-                {/* Technologies */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                    {project.technologies.slice(0, 4).map((tech, index) => (
-                        <span
-                            key={index}
-                            className="px-2 py-1 bg-slate-700 text-emerald-400 text-xs rounded"
-                        >
-                            {tech}
-                        </span>
-                    ))}
-                    {project.technologies.length > 4 && (
-                        <span className="px-2 py-1 bg-slate-700 text-slate-400 text-xs rounded">
-                            +{project.technologies.length - 4}
-                        </span>
-                    )}
-                </div>
-
-                {/* Project Links */}
-                <div className="flex items-center justify-between">
-                    <span className="text-emerald-400 text-sm font-medium">
-                        {project.year}
-                    </span>
-
-                    <div className="flex items-center space-x-2">
-                        {project.github && (
-                            <motion.a
-                                href={project.github}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.9 }}
-                                className="p-2 bg-slate-700 text-slate-300 rounded-lg hover:bg-slate-600 transition-colors"
-                            >
-                                <Github size={16} />
-                            </motion.a>
-                        )}
-
+                    {/* Overlay Links */}
+                    <div className="absolute top-4 right-4 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         {project.live && (
                             <motion.a
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.95 }}
                                 href={project.live}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.9 }}
-                                className="p-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors"
+                                className="w-10 h-10 bg-emerald-500/90 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-emerald-500"
                             >
-                                <ExternalLink size={16} />
+                                <ExternalLink className="w-4 h-4" />
                             </motion.a>
                         )}
+                        {project.github && (
+                            <motion.a
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.95 }}
+                                href={project.github}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-10 h-10 bg-slate-800/90 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-slate-700"
+                            >
+                                <Github className="w-4 h-4" />
+                            </motion.a>
+                        )}
+                    </div>
+                </div>
+
+                {/* Content */}
+                <div className="p-6">
+                    <div className="flex items-start justify-between mb-3">
+                        <h3 className="text-xl font-bold text-white group-hover:text-emerald-400 transition-colors duration-300">
+                            {language === 'es' ? project.title : project.titleEn}
+                        </h3>
+                        {project.featured && (
+                            <span className="px-2 py-1 bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-xs rounded-full">
+                                Destacado
+                            </span>
+                        )}
+                    </div>
+
+                    <p className="text-slate-400 mb-4 line-clamp-3">
+                        {language === 'es' ? project.description : project.descriptionEn}
+                    </p>
+
+                    {/* Technologies */}
+                    <div className="flex flex-wrap gap-2 mb-4">
+                        {project.technologies?.map((tech, techIndex) => (
+                            <span
+                                key={techIndex}
+                                className={`px-3 py-1 rounded-full text-xs font-medium ${techColors[tech] || 'bg-slate-700 text-slate-300'}`}
+                            >
+                                {tech}
+                            </span>
+                        ))}
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex items-center justify-between">
+                        <span className="text-sm text-slate-500 capitalize">
+                            {project.category}
+                        </span>
+                        <motion.div
+                            whileHover={{ x: 5 }}
+                            className="flex items-center text-emerald-400 text-sm font-medium cursor-pointer"
+                        >
+                            Ver más
+                            <ArrowRight className="w-4 h-4 ml-1" />
+                        </motion.div>
                     </div>
                 </div>
             </div>

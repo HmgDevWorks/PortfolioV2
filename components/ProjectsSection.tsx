@@ -87,8 +87,8 @@ export default function ProjectsSection({ language }: ProjectsSectionProps) {
                             whileTap={{ scale: 0.95 }}
                             onClick={() => setActiveCategory(category.id)}
                             className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${activeCategory === category.id
-                                    ? 'bg-emerald-500 text-white shadow-lg'
-                                    : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                                ? 'bg-emerald-500 text-white shadow-lg'
+                                : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
                                 }`}
                         >
                             {category.name}
@@ -105,15 +105,7 @@ export default function ProjectsSection({ language }: ProjectsSectionProps) {
                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
                 >
                     {filteredProjects.map((project, index) => (
-                        <motion.div
-                            key={project.id}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                            viewport={{ once: true }}
-                        >
-                            <ProjectCard project={project} language={language} />
-                        </motion.div>
+                        <ProjectCard key={project.id} project={project} language={language} index={index} />
                     ))}
                 </motion.div>
 

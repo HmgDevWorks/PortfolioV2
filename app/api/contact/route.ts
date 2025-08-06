@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
 
     // Configuración del transporter (ejemplo con Gmail)
     // En producción, deberías usar variables de entorno
-    const transporter = nodemailer.createTransporter({
+    const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: process.env.EMAIL_USER, // Tu email
