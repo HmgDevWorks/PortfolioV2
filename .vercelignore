@@ -1,0 +1,22 @@
+# Exclude DOC directory from Vercel deployment
+_DOC/
+_DOC/**/*
+
+# Dependencies
+node_modules/
+
+# Build outputs
+.next/
+out/
+build/
+
+# Environment files
+.env*.local
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db 

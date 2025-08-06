@@ -38,4 +38,8 @@ module.exports = {
     },
   },
   plugins: [],
+  // Exclude DOC directory from Tailwind processing
+  corePlugins: {
+    preflight: true,
+  },
 } 
