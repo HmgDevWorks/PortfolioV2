@@ -39,7 +39,7 @@ export const metadata: Metadata = {
         type: 'website',
         images: [
             {
-                url: '/images/og-image.jpg',
+                url: 'https://via.placeholder.com/1200x630/1f2937/ffffff?text=Héctor+Martín+-+Desarrollador+Fullstack',
                 width: 1200,
                 height: 630,
                 alt: 'Héctor Martín - Desarrollador Fullstack',
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
         card: 'summary_large_image',
         title: 'Héctor Martín - Desarrollador Fullstack y de Videojuegos',
         description: 'Portfolio profesional de Héctor Martín, desarrollador fullstack especializado en React, Next.js, Laravel, Unity y desarrollo móvil.',
-        images: ['/images/og-image.jpg'],
+        images: ['https://via.placeholder.com/1200x630/1f2937/ffffff?text=Héctor+Martín+-+Desarrollador+Fullstack'],
     },
     robots: {
         index: true,
