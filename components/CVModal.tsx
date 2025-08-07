@@ -96,40 +96,203 @@ export default function CVModal({ isOpen, onClose, language }: CVModalProps) {
         setIsGenerating(true);
 
         try {
-            // Usar html2canvas para capturar el contenido del modal
-            const canvas = await html2canvas(cvRef.current, {
-                scale: 2, // Mejor calidad
-                useCORS: true,
-                allowTaint: true,
-                backgroundColor: '#ffffff',
-                width: cvRef.current.scrollWidth,
-                height: cvRef.current.scrollHeight,
-                scrollX: 0,
-                scrollY: 0,
-                windowWidth: cvRef.current.scrollWidth,
-                windowHeight: cvRef.current.scrollHeight
+            // Crear PDF profesional de una sola página
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pageWidth = 210;
+            const pageHeight = 297;
+            const margin = 20;
+            const contentWidth = pageWidth - (margin * 2);
+            let yPosition = margin;
+
+            // Header con nombre y título
+            pdf.setFont('helvetica', 'bold');
+            pdf.setFontSize(24);
+            pdf.setTextColor(16, 185, 129); // emerald-500
+            pdf.text(personalInfo.name, pageWidth / 2, yPosition, { align: 'center' });
+            yPosition += 12;
+
+            pdf.setFont('helvetica', 'normal');
+            pdf.setFontSize(14);
+            pdf.setTextColor(100, 116, 139); // slate-500
+            pdf.text(language === 'es' ? personalInfo.title : personalInfo.titleEn, pageWidth / 2, yPosition, { align: 'center' });
+            yPosition += 10;
+
+            // Información de contacto
+            pdf.setFontSize(10);
+            pdf.setTextColor(71, 85, 105); // slate-600
+            const contactInfo = [
+                personalInfo.email,
+                '+34 654 91 75 04',
+                language === 'es' ? personalInfo.location : personalInfo.locationEn
+            ];
+            pdf.text(contactInfo.join(' | '), pageWidth / 2, yPosition, { align: 'center' });
+            yPosition += 15;
+
+            // Línea divisoria
+            pdf.setDrawColor(16, 185, 129);
+            pdf.line(margin, yPosition, pageWidth - margin, yPosition);
+            yPosition += 8;
+
+            // Sobre mí
+            pdf.setFont('helvetica', 'bold');
+            pdf.setFontSize(12);
+            pdf.setTextColor(16, 185, 129);
+            pdf.text(content[language].about, margin, yPosition);
+            yPosition += 6;
+
+            pdf.setFont('helvetica', 'normal');
+            pdf.setFontSize(10);
+            pdf.setTextColor(30, 41, 59); // slate-800
+            const aboutText = language === 'es' ? personalInfo.about : personalInfo.aboutEn;
+            if (aboutText) {
+                const lines = pdf.splitTextToSize(aboutText, contentWidth);
+                pdf.text(lines, margin, yPosition);
+                yPosition += (lines.length * 4) + 8;
+            }
+
+            // Experiencia Laboral
+            pdf.setFont('helvetica', 'bold');
+            pdf.setFontSize(12);
+            pdf.setTextColor(16, 185, 129);
+            pdf.text(content[language].experience, margin, yPosition);
+            yPosition += 6;
+
+            pdf.setDrawColor(16, 185, 129);
+            pdf.line(margin, yPosition, pageWidth - margin, yPosition);
+            yPosition += 6;
+
+            // Experiencias
+            pdf.setFont('helvetica', 'normal');
+            pdf.setFontSize(10);
+            experience.slice(0, 3).forEach((exp, index) => {
+                if (yPosition > pageHeight - 80) return;
+
+                pdf.setFont('helvetica', 'bold');
+                pdf.setTextColor(30, 41, 59);
+                const positionText = language === 'es' ? exp.position : exp.positionEn;
+                if (positionText) {
+                    pdf.text(positionText, margin, yPosition);
+                    yPosition += 4;
+                }
+
+                pdf.setFont('helvetica', 'normal');
+                pdf.setTextColor(16, 185, 129);
+                const dateRange = `${exp.company || ''} | ${formatDate(exp.startDate)} - ${exp.current ? content[language].current : formatDate(exp.endDate || '')}`;
+                pdf.text(dateRange, margin, yPosition);
+                yPosition += 4;
+
+                pdf.setTextColor(71, 85, 105);
+                const description = language === 'es' ? exp.description : exp.descriptionEn;
+                if (description) {
+                    const lines = pdf.splitTextToSize(description, contentWidth);
+                    pdf.text(lines, margin, yPosition);
+                    yPosition += (lines.length * 3.5) + 3;
+                }
+
+                pdf.setFontSize(9);
+                pdf.text(`${content[language].technologies}: ${exp.technologies.join(', ')}`, margin, yPosition);
+                yPosition += 6;
+                pdf.setFontSize(10);
             });
 
-            // Convertir canvas a PDF
-            const imgData = canvas.toDataURL('image/png');
-            const pdf = new jsPDF('p', 'mm', 'a4');
+            // Proyectos destacados
+            if (yPosition < pageHeight - 60) {
+                pdf.setFont('helvetica', 'bold');
+                pdf.setFontSize(12);
+                pdf.setTextColor(16, 185, 129);
+                pdf.text(content[language].projects, margin, yPosition);
+                yPosition += 6;
 
-            const imgWidth = 210; // A4 width in mm
-            const pageHeight = 297; // A4 height in mm
-            const imgHeight = (canvas.height * imgWidth) / canvas.width;
-            let heightLeft = imgHeight;
-            let position = 0;
+                pdf.setDrawColor(16, 185, 129);
+                pdf.line(margin, yPosition, pageWidth - margin, yPosition);
+                yPosition += 6;
 
-            // Primera página
-            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-            heightLeft -= pageHeight;
+                pdf.setFont('helvetica', 'normal');
+                pdf.setFontSize(10);
+                featuredProjects.slice(0, 4).forEach((project) => {
+                    if (yPosition > pageHeight - 40) return;
 
-            // Páginas adicionales si es necesario
-            while (heightLeft >= 0) {
-                position = heightLeft - imgHeight;
-                pdf.addPage();
-                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                heightLeft -= pageHeight;
+                    pdf.setFont('helvetica', 'bold');
+                    pdf.setTextColor(30, 41, 59);
+                    const projectTitle = language === 'es' ? project.title : project.titleEn;
+                    if (projectTitle) {
+                        pdf.text(projectTitle, margin, yPosition);
+                        yPosition += 4;
+                    }
+
+                    pdf.setFont('helvetica', 'normal');
+                    pdf.setTextColor(16, 185, 129);
+                    pdf.text(`${project.year} | ${project.category}`, margin, yPosition);
+                    yPosition += 5;
+                });
+            }
+
+            // Tecnologías
+            if (yPosition < pageHeight - 50) {
+                pdf.setFont('helvetica', 'bold');
+                pdf.setFontSize(12);
+                pdf.setTextColor(16, 185, 129);
+                pdf.text(content[language].technologies, margin, yPosition);
+                yPosition += 6;
+
+                pdf.setDrawColor(16, 185, 129);
+                pdf.line(margin, yPosition, pageWidth - margin, yPosition);
+                yPosition += 6;
+
+                pdf.setFont('helvetica', 'normal');
+                pdf.setFontSize(9);
+                pdf.setTextColor(71, 85, 105);
+
+                // Agrupar por categoría
+                const techByCategory = technologies.reduce((acc, tech) => {
+                    if (!acc[tech.category]) acc[tech.category] = [];
+                    acc[tech.category].push(tech.name);
+                    return acc;
+                }, {} as Record<string, string[]>);
+
+                Object.entries(techByCategory).forEach(([category, techs]) => {
+                    if (yPosition > pageHeight - 20) return;
+
+                    const categoryNames = {
+                        es: { frontend: 'Frontend', backend: 'Backend', mobile: 'Mobile & Games', database: 'Bases de Datos', tools: 'Herramientas', cloud: 'Servicios Cloud' },
+                        en: { frontend: 'Frontend', backend: 'Backend', mobile: 'Mobile & Games', database: 'Databases', tools: 'Tools', cloud: 'Cloud Services' }
+                    };
+
+                    const categoryName = categoryNames[language][category as keyof typeof categoryNames.es];
+                    if (!categoryName) return;
+
+                    pdf.setFont('helvetica', 'bold');
+                    pdf.text(`${categoryName}:`, margin, yPosition);
+                    yPosition += 3;
+
+                    pdf.setFont('helvetica', 'normal');
+                    pdf.text(techs.join(', '), margin + 5, yPosition);
+                    yPosition += 4;
+                });
+            }
+
+            // Footer con estadísticas
+            if (yPosition < pageHeight - 15) {
+                pdf.setDrawColor(241, 245, 249); // slate-100
+                pdf.setFillColor(241, 245, 249);
+                pdf.rect(margin, pageHeight - 20, contentWidth, 15, 'F');
+
+                pdf.setFont('helvetica', 'bold');
+                pdf.setFontSize(10);
+                pdf.setTextColor(16, 185, 129);
+
+                const stats = [
+                    `${personalInfo.yearsOfExperience}+ ${content[language].years}`,
+                    `${featuredProjects.length} ${content[language].featured}`,
+                    `${technologies.length} ${content[language].technologies}`,
+                    `${personalInfo.languages.length} ${content[language].languages}`
+                ];
+
+                const statWidth = contentWidth / 4;
+                stats.forEach((stat, index) => {
+                    const x = margin + (statWidth * index) + (statWidth / 2);
+                    pdf.text(stat, x, pageHeight - 13, { align: 'center' });
+                });
             }
 
             pdf.save(`CV_Hector_Martin_${language.toUpperCase()}.pdf`);

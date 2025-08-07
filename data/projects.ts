@@ -80,7 +80,7 @@ export const projects: Project[] = [
     image: "/images/projects/unity-game.jpg",
     technologies: ["Unity", "C#", "PHP", "MySQL", "Android"],
     github: undefined,
-    live: undefined,
+    live: "https://drinkparty.games/html/apps/taisai/appTaisai.html",
     year: "2022-2024",
     category: "game",
     featured: true,

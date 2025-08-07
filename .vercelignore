@@ -9,6 +9,8 @@ build/
 # Environment files
 .env
 .env.local
+.env.development
+.env.production
 
 # IDE files
 .vscode/
@@ -19,4 +21,17 @@ build/
 Thumbs.db
 
 # Logs
-*.log 
+*.log
+
+# Git files
+.git/
+.gitignore
+
+# Package manager files
+pnpm-workspace.yaml
+
+# TypeScript declaration files
+next-env.d.ts
+
+# Development files
+README.md 

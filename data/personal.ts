@@ -11,8 +11,9 @@ export const personalInfo: PersonalInfo = {
     "Apasionado por crear experiencias digitales, desde juegos hasta webs funcionales. Desarrollo completo de apps, con backend propio, monetización y publicación.",
   aboutEn:
     "Passionate about creating digital experiences, from games to functional websites. Complete app development with own backend, monetization and publication.",
-  github: "https://github.com/hectormartin",
-  linkedin: "https://linkedin.com/in/hectormartin",
+  github: "https://github.com/HmgDevWorks",
+  linkedin:
+    "https://www.linkedin.com/in/h%C3%A9ctor-mart%C3%ADn-garc%C3%ADa-5497b1153/",
   avatar: "/images/avatar.jpg",
   yearsOfExperience: 3,
   languages: ["Español", "English"],
