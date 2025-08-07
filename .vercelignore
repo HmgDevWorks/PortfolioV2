@@ -35,15 +35,4 @@ pnpm-workspace.yaml
 next-env.d.ts
 
 # Development files
-README.md
-
-# Babel config
-.babelrc
-
-# Test files
-**/*.test.*
-**/*.spec.*
-
-# Documentation
-docs/
-*.md 
+README.md 

@@ -7,8 +7,6 @@ const nextConfig = {
     locales: ['es', 'en'],
     defaultLocale: 'es',
   },
-  // Configuración mínima
-  swcMinify: true,
 }
 
 module.exports = nextConfig 
