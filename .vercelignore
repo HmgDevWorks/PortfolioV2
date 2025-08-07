@@ -5,6 +5,7 @@ node_modules/
 .next/
 out/
 build/
+dist/
 
 # Environment files
 .env
@@ -34,4 +35,15 @@ pnpm-workspace.yaml
 next-env.d.ts
 
 # Development files
-README.md 
+README.md
+
+# Babel config
+.babelrc
+
+# Test files
+**/*.test.*
+**/*.spec.*
+
+# Documentation
+docs/
+*.md 
