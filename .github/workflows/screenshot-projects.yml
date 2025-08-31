@@ -36,22 +36,21 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y imagemagick webp
 
-      - name: Install Puppeteer dependencies
+      - name: Setup Chrome for Puppeteer
         run: |
-          # Install Chrome dependencies automatically
-          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-          sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
-
-          # Install additional dependencies for headless mode
+          # GitHub runners already have Chrome installed, just ensure dependencies
           sudo apt-get install -y \
-            libnss3-dev \
-            libgconf-2-4 \
-            libxss1 \
-            libappindicator1 \
             fonts-liberation \
-            libappindicator3-1
+            libxss1 \
+            libnss3 \
+            libgbm1 \
+            libxrandr2 \
+            libasound2 \
+            libpangocairo-1.0-0 \
+            libatk1.0-0 \
+            libcairo-gobject2 \
+            libgtk-3-0 \
+            libgdk-pixbuf2.0-0
 
       - name: Create screenshots directory
         run: mkdir -p public/images/projects
