@@ -38,19 +38,13 @@ jobs:
 
       - name: Setup Chrome for Puppeteer
         run: |
-          # GitHub runners already have Chrome installed, just ensure dependencies
+          # Install only essential dependencies that exist in Ubuntu 24.04
           sudo apt-get install -y \
-            fonts-liberation \
             libxss1 \
             libnss3 \
             libgbm1 \
-            libxrandr2 \
-            libasound2 \
-            libpangocairo-1.0-0 \
-            libatk1.0-0 \
-            libcairo-gobject2 \
-            libgtk-3-0 \
-            libgdk-pixbuf2.0-0
+            libxrandr2 || true
+          # Continue even if some packages fail
 
       - name: Create screenshots directory
         run: mkdir -p public/images/projects
