@@ -38,16 +38,20 @@ jobs:
 
       - name: Install Puppeteer dependencies
         run: |
+          # Install Chrome dependencies automatically
+          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
+          # Install additional dependencies for headless mode
           sudo apt-get install -y \
-            libnss3 \
-            libatk-bridge2.0-0 \
-            libdrm2 \
-            libxcomposite1 \
-            libxdamage1 \
-            libxrandr2 \
-            libgbm1 \
+            libnss3-dev \
+            libgconf-2-4 \
             libxss1 \
-            libasound2
+            libappindicator1 \
+            fonts-liberation \
+            libappindicator3-1
 
       - name: Create screenshots directory
         run: mkdir -p public/images/projects
