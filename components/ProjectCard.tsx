@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ExternalLink, Github, ArrowRight, Code } from 'lucide-react';
+import { ExternalLink, Github, ArrowRight } from 'lucide-react';
 import { Project } from '@/types';
 
 interface ProjectCardProps {
@@ -20,6 +20,7 @@ export default function ProjectCard({ project, language, index = 0 }: ProjectCar
         'MongoDB': 'bg-green-100 text-green-800',
         'PostgreSQL': 'bg-indigo-100 text-indigo-800',
         'Tailwind': 'bg-cyan-100 text-cyan-800',
+        'Tailwind CSS': 'bg-cyan-100 text-cyan-800',
         'Laravel': 'bg-red-100 text-red-800',
         'PHP': 'bg-purple-100 text-purple-800',
         'MySQL': 'bg-orange-100 text-orange-800',
@@ -32,6 +33,37 @@ export default function ProjectCard({ project, language, index = 0 }: ProjectCar
         'CSS': 'bg-blue-100 text-blue-800',
         'DomPDF': 'bg-red-100 text-red-800',
         'Android': 'bg-green-100 text-green-800',
+        'WebSockets': 'bg-pink-100 text-pink-800',
+        'Laravel Reverb': 'bg-orange-100 text-orange-800',
+        'Spatie': 'bg-indigo-100 text-indigo-800',
+        'Vite': 'bg-amber-100 text-amber-800',
+        'Stripe': 'bg-violet-100 text-violet-800',
+        'Prisma': 'bg-teal-100 text-teal-800',
+        'Redis': 'bg-red-100 text-red-800',
+    };
+
+    // Función para determinar si usar placeholder
+    const shouldUsePlaceholder = (imageUrl: string) => {
+        return !imageUrl ||
+            imageUrl.includes('placeholder.com') ||
+            imageUrl.includes('via.placeholder') ||
+            !imageUrl.startsWith('http');
+    };
+
+    // Función para obtener icono según categoría
+    const getCategoryIcon = (category: string) => {
+        switch (category) {
+            case 'web':
+                return '🌐';
+            case 'mobile':
+                return '📱';
+            case 'fullstack':
+                return '⚡';
+            case 'game':
+                return '🎮';
+            default:
+                return '💻';
+        }
     };
 
     return (
@@ -45,7 +77,7 @@ export default function ProjectCard({ project, language, index = 0 }: ProjectCar
             <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl overflow-hidden hover:border-emerald-500/30 transition-all duration-500 hover:shadow-2xl hover:shadow-emerald-500/10">
                 {/* Project Image */}
                 <div className="relative overflow-hidden aspect-video">
-                    {project.image ? (
+                    {project.image && !shouldUsePlaceholder(project.image) ? (
                         <motion.img
                             whileHover={{ scale: 1.05 }}
                             transition={{ duration: 0.6 }}
@@ -60,9 +92,17 @@ export default function ProjectCard({ project, language, index = 0 }: ProjectCar
                         />
                     ) : null}
 
-                    {/* Fallback placeholder */}
-                    <div className={`w-full h-full bg-gradient-to-br from-emerald-500/20 to-blue-500/20 flex items-center justify-center ${project.image ? 'hidden' : ''}`}>
-                        <Code size={48} className="text-emerald-400" />
+                    {/* Custom Placeholder - Always shown when no real image */}
+                    <div className={`w-full h-full bg-gradient-to-br from-emerald-500/20 to-blue-500/20 flex flex-col items-center justify-center p-4 ${project.image && !shouldUsePlaceholder(project.image) ? 'hidden' : ''}`}>
+                        <div className="text-4xl mb-3">
+                            {getCategoryIcon(project.category)}
+                        </div>
+                        <span className="text-emerald-300 text-sm font-medium text-center px-2 leading-tight">
+                            {language === 'es' ? project.title : project.titleEn}
+                        </span>
+                        <span className="text-emerald-400/60 text-xs mt-2 uppercase tracking-wide">
+                            {project.category}
+                        </span>
                     </div>
 
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -130,13 +170,26 @@ export default function ProjectCard({ project, language, index = 0 }: ProjectCar
                         <span className="text-sm text-slate-500 capitalize">
                             {project.category}
                         </span>
-                        <motion.div
-                            whileHover={{ x: 5 }}
-                            className="flex items-center text-emerald-400 text-sm font-medium cursor-pointer"
-                        >
-                            Ver más
-                            <ArrowRight className="w-4 h-4 ml-1" />
-                        </motion.div>
+                        {project.live ? (
+                            <motion.a
+                                whileHover={{ x: 5 }}
+                                href={project.live}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center text-emerald-400 text-sm font-medium cursor-pointer hover:text-emerald-300 transition-colors"
+                            >
+                                Ver más
+                                <ArrowRight className="w-4 h-4 ml-1" />
+                            </motion.a>
+                        ) : (
+                            <motion.div
+                                whileHover={{ x: 5 }}
+                                className="flex items-center text-slate-500 text-sm font-medium cursor-not-allowed"
+                            >
+                                Ver más
+                                <ArrowRight className="w-4 h-4 ml-1" />
+                            </motion.div>
+                        )}
                     </div>
                 </div>
             </div>

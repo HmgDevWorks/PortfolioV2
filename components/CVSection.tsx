@@ -6,14 +6,12 @@ import { Download, Eye } from 'lucide-react';
 import { personalInfo } from '@/data/personal';
 import { projects } from '@/data/projects';
 import { technologies } from '@/data/technologies';
-import CVModal from './CVModal';
 
 interface CVSectionProps {
     language: 'es' | 'en';
 }
 
 export default function CVSection({ language }: CVSectionProps) {
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const content = {
         es: {
@@ -155,35 +153,33 @@ export default function CVSection({ language }: CVSectionProps) {
                         viewport={{ once: true }}
                         className="flex flex-col sm:flex-row gap-4 justify-center"
                     >
-                        <motion.button
+                        <motion.a
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            onClick={() => setIsModalOpen(true)}
+                            href={`/cv?lang=${language}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="flex items-center justify-center space-x-2 px-8 py-4 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-lg font-semibold hover:from-emerald-600 hover:to-emerald-700 transition-all duration-300"
                         >
                             <Eye size={20} />
                             <span>{content[language].view}</span>
-                        </motion.button>
+                        </motion.a>
 
-                        <motion.button
+                        <motion.a
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            onClick={() => setIsModalOpen(true)}
+                            href={`/api/cv-pdf?lang=${language}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="flex items-center justify-center space-x-2 px-8 py-4 border border-slate-700 text-slate-300 rounded-lg font-semibold hover:border-emerald-500 hover:text-emerald-400 transition-all duration-300"
                         >
                             <Download size={20} />
                             <span>{content[language].download}</span>
-                        </motion.button>
+                        </motion.a>
                     </motion.div>
                 </div>
             </section>
 
-            {/* CV Modal */}
-            <CVModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                language={language}
-            />
         </>
     );
 } 
