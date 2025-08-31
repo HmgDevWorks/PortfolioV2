@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 const fs = require('fs').promises;
 const path = require('path');
 
-// Import projects data (we'll need to read and parse the TS file)
+// Import projects data by creating a temporary JS file
 async function getProjects() {
   const fs = require('fs').promises;
   const path = require('path');
@@ -10,21 +10,32 @@ async function getProjects() {
   const projectsPath = path.join(process.cwd(), 'data', 'projects.ts');
   const content = await fs.readFile(projectsPath, 'utf8');
   
-  // Extract the projects array using regex (simple but works)
-  const projectsMatch = content.match(/export const projects: Project\[\] = (\[[\s\S]*?\]);/);
-  if (!projectsMatch) {
-    throw new Error('Could not find projects array in projects.ts');
-  }
-  
-  // Use eval to parse the array (in a controlled environment)
-  const projectsString = projectsMatch[1]
-    .replace(/(\w+):/g, '"$1":') // Convert object keys to strings
+  // Create a temporary JS version of the file
+  const jsContent = content
+    .replace(/import.*from.*["'].*["'];?\s*/g, '') // Remove imports
+    .replace(/export const/g, 'module.exports =') // Convert to CommonJS
+    .replace(/: Project\[\]/g, '') // Remove TypeScript types
     .replace(/undefined/g, 'null'); // Convert undefined to null
   
+  const tempPath = path.join(process.cwd(), 'temp-projects.js');
+  await fs.writeFile(tempPath, jsContent);
+  
   try {
-    return JSON.parse(projectsString);
+    // Clear require cache and require the temp file
+    delete require.cache[tempPath];
+    const projects = require(tempPath);
+    
+    // Clean up temp file
+    await fs.unlink(tempPath);
+    
+    return projects;
   } catch (error) {
-    console.error('Error parsing projects array:', error);
+    // Clean up temp file even on error
+    try {
+      await fs.unlink(tempPath);
+    } catch (e) {
+      // Ignore cleanup errors
+    }
     throw error;
   }
 }
