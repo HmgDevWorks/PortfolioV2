@@ -1,4 +1,4 @@
-import puppeteer from "puppeteer";
+import puppeteer, { Browser } from "puppeteer";
 
 export const runtime = "nodejs";
 
@@ -7,7 +7,7 @@ export async function GET(request: Request) {
   const lang = url.searchParams.get("lang") || "es";
   const targetUrl = `${url.origin}/cv?lang=${lang}`;
 
-  let browser: puppeteer.Browser | null = null;
+  let browser: Browser | null = null;
   try {
     browser = await puppeteer.launch({
       headless: true,
@@ -31,7 +31,7 @@ export async function GET(request: Request) {
       height: "297mm",
     });
 
-    return new Response(buffer, {
+    return new Response(new Uint8Array(buffer), {
       headers: {
         "Content-Type": "application/pdf",
         "Content-Disposition": `attachment; filename=CV_Hector_Martin_${lang.toUpperCase()}.pdf`,

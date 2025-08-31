@@ -97,7 +97,9 @@ export default function HeroSection({ language }: HeroSectionProps) {
                         </motion.a>
 
                         <motion.a
-                            href="#cv"
+                            href={`/api/cv-pdf?lang=${language}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             className="flex items-center justify-center space-x-2 px-8 py-4 border-2 border-emerald-500 text-emerald-400 rounded-lg font-semibold hover:bg-emerald-500 hover:text-white transition-all duration-300"
