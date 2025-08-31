@@ -32,9 +32,11 @@ async function updateProjectsFile() {
       );
 
       const beforeUpdate = projectsContent;
+      const replacement = `$1"${imagePath}"$2`;
+
       projectsContent = projectsContent.replace(
         projectRegex,
-        `$1"${imagePath}"`
+        replacement
       );
 
       if (beforeUpdate !== projectsContent) {
@@ -42,6 +44,7 @@ async function updateProjectsFile() {
         console.log(`✅ Updated image path for ${projectId} → ${imagePath}`);
       } else {
         console.log(`⚠️ Could not find project ${projectId} to update`);
+        console.log(`   Looking for: id: "${projectId}"`);
       }
     }
 
