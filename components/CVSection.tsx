@@ -168,7 +168,7 @@ export default function CVSection({ language }: CVSectionProps) {
                         <motion.a
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            href={`/api/cv-pdf?lang=${language}`}
+                            href={`/cvs/CV_Hector_Martin_${language.toUpperCase()}.pdf`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center justify-center space-x-2 px-8 py-4 border border-slate-700 text-slate-300 rounded-lg font-semibold hover:border-emerald-500 hover:text-emerald-400 transition-all duration-300"

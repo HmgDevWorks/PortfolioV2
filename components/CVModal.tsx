@@ -87,7 +87,7 @@ export default function CVModal({ isOpen, onClose, language }: CVModalProps) {
                                 <motion.a
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
-                                    href={`/api/cv-pdf?lang=${language}`}
+                                    href={`/cvs/CV_Hector_Martin_${language.toUpperCase()}.pdf`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 bg-emerald-500 text-white rounded-lg font-semibold hover:bg-emerald-600 transition-colors"

@@ -28,6 +28,11 @@ Los archivos PDF se generan automáticamente cuando:
 4. Guarda los archivos en este directorio
 5. Hace commit y push de los archivos generados
 
-## API
+## Acceso
 
-Los archivos se sirven a través del endpoint `/api/cv-pdf?lang=es|en` que lee los archivos pre-generados en lugar de generarlos dinámicamente.
+Los archivos se sirven directamente como archivos estáticos:
+
+- **Español**: `/cvs/CV_Hector_Martin_ES.pdf`
+- **Inglés**: `/cvs/CV_Hector_Martin_EN.pdf`
+
+Los enlaces en la aplicación apuntan directamente a estos archivos, proporcionando descarga inmediata sin procesamiento del servidor.
