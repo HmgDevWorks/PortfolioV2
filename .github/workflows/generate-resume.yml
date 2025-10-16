@@ -8,13 +8,7 @@ on:
         required: false
         default: "https://hmgdevworks.vercel.app"
   push:
-    branches: [main, project-images]
-    paths:
-      - "app/cv/**"
-      - "components/**"
-      - "data/**"
-      - "app/globals.css"
-      - "tailwind.config.js"
+    branches: [main]
     paths-ignore:
       - "public/cvs/CV_Hector_Martin_ES.pdf"
       - "public/cvs/CV_Hector_Martin_EN.pdf"
