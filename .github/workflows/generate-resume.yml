@@ -10,8 +10,8 @@ on:
   push:
     branches: [main]
     paths-ignore:
-      - "public/cvs/CV_Hector_Martin_ES.pdf"
-      - "public/cvs/CV_Hector_Martin_EN.pdf"
+      - "public/cvs/*"
+      - "public/docs/*"
 
 jobs:
   generate-resume:
@@ -47,7 +47,6 @@ jobs:
           pnpm install
           pnpm exec puppeteer browsers install chrome
           cd ../../..
-
 
       - name: Wait for Vercel deployment
         if: github.event_name == 'push'
