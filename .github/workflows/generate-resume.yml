@@ -37,22 +37,17 @@ jobs:
           path: |
             ~/.pnpm-store
             ~/.cache/puppeteer
-          key: ${{ runner.os }}-pnpm-puppeteer-${{ hashFiles('.github/scripts/generate-resume/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-pnpm-puppeteer-${{ hashFiles('.github/scripts/generate-resume/package.json') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-puppeteer-
 
       - name: Install dependencies and browser
         run: |
           cd .github/scripts/generate-resume
-          pnpm install --frozen-lockfile
+          pnpm install
           pnpm exec puppeteer browsers install chrome
           cd ../../..
 
-      - name: Install and cache ghostscript
-        uses: awalsh128/cache-apt-pkgs-action@v1
-        with:
-          packages: ghostscript
-          version: ${{ hashFiles('.github/workflows/generate-resume.yml') }}
 
       - name: Wait for Vercel deployment
         if: github.event_name == 'push'
