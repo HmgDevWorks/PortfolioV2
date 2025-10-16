@@ -1,49 +1,58 @@
-import puppeteer, { Browser } from "puppeteer";
+import { NextRequest, NextResponse } from 'next/server';
+import { readFile } from 'fs/promises';
+import { join } from 'path';
 
 export const runtime = "nodejs";
 
-export async function GET(request: Request) {
-  const url = new URL(request.url);
-  const lang = url.searchParams.get("lang") || "es";
-  const targetUrl = `${url.origin}/cv?lang=${lang}`;
-
-  let browser: Browser | null = null;
+export async function GET(request: NextRequest) {
   try {
-    browser = await puppeteer.launch({
-      headless: true,
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    });
-
-    const page = await browser.newPage();
-    // A4 size optimizado para mejor calidad
-    await page.setViewport({ width: 1240, height: 1754, deviceScaleFactor: 2 });
-    await page.goto(targetUrl, { waitUntil: "networkidle0" });
-
-    // Esperar a que se carguen los estilos CSS
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    const buffer = await page.pdf({
-      format: "A4",
-      printBackground: true,
-      margin: { top: "5mm", right: "5mm", bottom: "5mm", left: "5mm" },
-      preferCSSPageSize: true,
-      width: "210mm",
-      height: "297mm",
-    });
-
-    return new Response(new Uint8Array(buffer), {
+    const { searchParams } = new URL(request.url);
+    const lang = searchParams.get("lang") || "es";
+    
+    // Mapear idiomas a archivos
+    const langMap: Record<string, string> = {
+      'es': 'CV_Hector_Martin_ES.pdf',
+      'en': 'CV_Hector_Martin_EN.pdf'
+    };
+    
+    const fileName = langMap[lang] || langMap['es'];
+    const filePath = join(process.cwd(), 'public', 'cvs', fileName);
+    
+    // Leer el archivo PDF pre-generado
+    const fileBuffer = await readFile(filePath);
+    
+    return new NextResponse(fileBuffer, {
+      status: 200,
       headers: {
-        "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename=CV_Hector_Martin_${lang.toUpperCase()}.pdf`,
-        "Cache-Control": "no-store",
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `attachment; filename=${fileName}`,
+        'Cache-Control': 'public, max-age=3600', // Cache por 1 hora
+        'Content-Length': fileBuffer.length.toString(),
       },
     });
-  } catch (err) {
-    console.error("CV PDF generation failed", err);
-    return new Response("Failed to generate PDF", { status: 500 });
-  } finally {
-    try {
-      await browser?.close();
-    } catch {}
+    
+  } catch (error) {
+    console.error('Error serving CV PDF:', error);
+    
+    // Si no existe el archivo, devolver error 404
+    if (error instanceof Error && 'code' in error && error.code === 'ENOENT') {
+      return NextResponse.json(
+        { 
+          error: 'CV not found', 
+          message: 'The requested CV has not been generated yet. Please try again later.',
+          timestamp: new Date().toISOString()
+        },
+        { status: 404 }
+      );
+    }
+    
+    return NextResponse.json(
+      { 
+        error: 'Failed to serve CV', 
+        message: 'An error occurred while serving the CV file.',
+        timestamp: new Date().toISOString()
+      },
+      { status: 500 }
+    );
   }
 }
