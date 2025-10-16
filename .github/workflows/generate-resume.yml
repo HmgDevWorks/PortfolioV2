@@ -1,0 +1,123 @@
+name: Generate Resume (PDF & Markdown)
+
+on:
+  workflow_dispatch:
+    inputs:
+      site_url:
+        description: "Site URL to generate resume from"
+        required: false
+        default: "https://hmgdevworks.vercel.app"
+  push:
+    branches: [main, project-images]
+    paths:
+      - "app/cv/**"
+      - "components/**"
+      - "data/**"
+      - "app/globals.css"
+      - "tailwind.config.js"
+    paths-ignore:
+      - "public/cvs/CV_Hector_Martin_ES.pdf"
+      - "public/cvs/CV_Hector_Martin_EN.pdf"
+
+jobs:
+  generate-resume:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup pnpm and puppeteer cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pnpm-store
+            ~/.cache/puppeteer
+          key: ${{ runner.os }}-pnpm-puppeteer-${{ hashFiles('.github/scripts/generate-resume/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-puppeteer-
+
+      - name: Install dependencies and browser
+        run: |
+          cd .github/scripts/generate-resume
+          pnpm install --frozen-lockfile
+          pnpm exec puppeteer browsers install chrome
+          cd ../../..
+
+      - name: Install and cache ghostscript
+        uses: awalsh128/cache-apt-pkgs-action@v1
+        with:
+          packages: ghostscript
+          version: ${{ hashFiles('.github/workflows/generate-resume.yml') }}
+
+      - name: Wait for Vercel deployment
+        if: github.event_name == 'push'
+        shell: bash
+        run: |
+          echo "🔄 Waiting for deployment with commit ${{ github.sha }} to be live..."
+          URL="https://hmgdevworks.vercel.app/build-info"
+          EXPECTED_SHA="${{ github.sha }}"
+
+          for i in {1..30}; do
+            # Fetch the live commit SHA from the build-info endpoint.
+            # The command will output "not_ready" on failure (e.g., 404).
+            LIVE_SHA=$(curl -s -f "$URL" | jq -r .commitSha || echo "not_ready")
+            
+            if [[ "$LIVE_SHA" == "$EXPECTED_SHA" ]]; then
+              echo "✅ Deployment is live with correct commit SHA!"
+              exit 0
+            fi
+
+            if [ $i -eq 30 ]; then
+              echo "⚠️ Timeout after 300 seconds. Live SHA ($LIVE_SHA) does not match expected SHA ($EXPECTED_SHA)."
+              echo "Proceeding with PDF generation anyway..."
+              exit 0
+            fi
+            
+            echo "⏳ Attempt $i/30: Site not ready (Live: $LIVE_SHA). Waiting 10s..."
+            sleep 10
+          done
+
+      - name: Generate resume files (PDF & Markdown)
+        env:
+          SITE_URL: ${{ github.event.inputs.site_url || 'https://hmgdevworks.vercel.app' }}
+        run: node .github/scripts/generate-resume/index.js
+
+      - name: Check for changes
+        id: changes
+        run: |
+          git add public/cvs/CV_Hector_Martin_ES.pdf public/cvs/CV_Hector_Martin_EN.pdf
+          if ! git diff --cached --quiet; then
+            echo "changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "changes=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Pull Request
+        if: steps.changes.outputs.changes == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 🤖 Auto-update CV PDFs (ES & EN) [skip ci]
+          title: "🤖 Auto-update CV PDFs"
+          body: |
+            This is an auto-generated PR to update the CV PDF files in both Spanish and English.
+            Please review the changes and merge if they are correct.
+          branch: chore/update-resume-files
+          delete-branch: true
+          reviewers: ${{ github.actor }}
+          assignees: ${{ github.actor }}
+
+      - name: No changes detected
+        if: steps.changes.outputs.changes == 'false'
+        run: echo "📄 No changes in CV files"

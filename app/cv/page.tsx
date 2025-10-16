@@ -59,7 +59,7 @@ function CVContent() {
             <div className="max-w-5xl mx-auto mb-4 px-4 flex items-center justify-between text-slate-200 print:hidden">
                 <h1 className="text-xl font-semibold">{content[language].title}</h1>
                 <a
-                    href={`/api/cv-pdf?lang=${language}`}
+                    href={`/cvs/CV_Hector_Martin_${language.toUpperCase()}.pdf`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-3 py-2 rounded-lg bg-emerald-500 text-white text-sm font-semibold hover:bg-emerald-600"

@@ -1,0 +1,16 @@
+{
+  "name": "resume-generator",
+  "version": "1.0.0",
+  "description": "Generate resume files (PDF & Markdown) from website",
+  "main": "index.js",
+  "scripts": {
+    "generate": "node index.js"
+  },
+  "dependencies": {
+    "puppeteer": "^24.10.2",
+    "jsdom": "^25.0.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

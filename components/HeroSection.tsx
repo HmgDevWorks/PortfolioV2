@@ -97,7 +97,7 @@ export default function HeroSection({ language }: HeroSectionProps) {
                         </motion.a>
 
                         <motion.a
-                            href={`/api/cv-pdf?lang=${language}`}
+                            href={`/cvs/CV_Hector_Martin_${language.toUpperCase()}.pdf`}
                             target="_blank"
                             rel="noopener noreferrer"
                             whileHover={{ scale: 1.05 }}
