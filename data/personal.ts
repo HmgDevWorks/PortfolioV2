@@ -1,7 +1,7 @@
 import { PersonalInfo, Experience, Education } from "@/types";
 
 export const personalInfo: PersonalInfo = {
-  name: "Héctor Martín",
+  name: "Héctor Martín García",
   title: "Desarrollador Fullstack y de videojuegos",
   titleEn: "Fullstack Developer and Game Developer",
   email: "HmgDevWorks@gmail.com",
@@ -28,10 +28,23 @@ export const experience: Experience[] = [
     startDate: "2025-05",
     current: true,
     description:
-      "Refactorización de errores en sistema legacy (PHP), gestor de tareas con React + Laravel, generación de PDFs (DomPDF).",
+      "Desarrollo del portal de recursos humanos con gestión de archivos y nóminas (frontend), creación de widget reutilizable para inyección en otros proyectos, refactorización de errores en sistema legacy (PHP), gestor de tareas con React + Laravel, generación de PDFs (DomPDF), contenedores Docker para el portal.",
     descriptionEn:
-      "Refactoring errors in legacy system (PHP), task manager with React + Laravel, PDF generation (DomPDF).",
-    technologies: ["React", "Laravel", "PHP", "DomPDF"],
+      "Development of human resources portal with file and payroll management (frontend), creation of reusable widget for injection into other projects, refactoring errors in legacy system (PHP), task manager with React + Laravel, PDF generation (DomPDF), Docker containers for the portal.",
+    technologies: [
+      "React",
+      "Laravel",
+      "PHP",
+      "DomPDF",
+      "Docker",
+      "JavaScript",
+      "HTML/CSS",
+      "PostgreSQL",
+      "Vite",
+      "Tailwind CSS",
+      "Google OAuth",
+      "Redis",
+    ],
   },
   {
     id: "colon-practices",
@@ -63,7 +76,7 @@ export const experience: Experience[] = [
       "Unity",
       "C#",
       "PHP",
-      "SQL",
+      "MariaDB",
       "IronSource",
       "HTML",
       "JavaScript",

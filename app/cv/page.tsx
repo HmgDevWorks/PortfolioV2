@@ -117,9 +117,17 @@ function CVContent() {
                                             <div className="text-[11px] text-emerald-600">{exp.company} | {formatDate(exp.startDate)} - {exp.current ? content[language].current : formatDate(exp.endDate || '')}</div>
                                             <div className="text-[11px] text-slate-700 leading-tight">{language === 'es' ? exp.description : exp.descriptionEn}</div>
                                             <div className="mt-1 flex flex-wrap gap-1">
-                                                {exp.technologies.slice(0, 4).map(t => (
+                                                {exp.technologies.slice(0, 6).map(t => (
                                                     <span key={t} className="bg-slate-100 text-slate-700 text-[10px] px-2 py-[3px] rounded border border-slate-200 font-medium inline-block">{t}</span>
                                                 ))}
+                                                {exp.technologies.length > 6 && (
+                                                    <div className="relative group">
+                                                        <span className="bg-slate-200 text-slate-600 text-[10px] px-2 py-[3px] rounded font-medium inline-block cursor-help">+{exp.technologies.length - 6}</span>
+                                                        <div className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-slate-800 text-white text-[9px] rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                                                            {exp.technologies.slice(6).map(tech => tech).join(', ')}
+                                                        </div>
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
                                     ))}
@@ -156,7 +164,12 @@ function CVContent() {
                                                     <span key={tech} className="bg-slate-100 text-slate-700 text-[9px] px-1.5 py-[2px] rounded border border-slate-200 font-medium inline-block">{tech}</span>
                                                 ))}
                                                 {project.technologies.length > 3 && (
-                                                    <span className="bg-slate-200 text-slate-600 text-[9px] px-1.5 py-[2px] rounded font-medium inline-block">+{project.technologies.length - 3}</span>
+                                                    <div className="relative group">
+                                                        <span className="bg-slate-200 text-slate-600 text-[9px] px-1.5 py-[2px] rounded font-medium inline-block cursor-help">+{project.technologies.length - 3}</span>
+                                                        <div className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-slate-800 text-white text-[8px] rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                                                            {project.technologies.slice(3).map(tech => tech).join(', ')}
+                                                        </div>
+                                                    </div>
                                                 )}
                                             </div>
                                         </div>
@@ -228,11 +241,16 @@ function CVContent() {
                                             <div key={category} className="border border-slate-200 rounded p-2">
                                                 <div className="text-[11px] font-semibold text-slate-800 mb-1">{names[language][category as keyof typeof names.es]}</div>
                                                 <div className="flex flex-wrap gap-1">
-                                                    {categoryTechs.slice(0, 6).map(tech => (
+                                                    {categoryTechs.slice(0, 8).map(tech => (
                                                         <span key={tech.name} className="bg-slate-100 text-slate-700 text-[10px] px-2 py-[3px] rounded border border-slate-200 font-medium inline-block">{tech.name}</span>
                                                     ))}
-                                                    {categoryTechs.length > 6 && (
-                                                        <span className="bg-slate-200 text-slate-600 text-[10px] px-2 py-[3px] rounded font-medium inline-block">+{categoryTechs.length - 6}</span>
+                                                    {categoryTechs.length > 8 && (
+                                                        <div className="relative group">
+                                                            <span className="bg-slate-200 text-slate-600 text-[10px] px-2 py-[3px] rounded font-medium inline-block cursor-help">+{categoryTechs.length - 8}</span>
+                                                            <div className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-slate-800 text-white text-[9px] rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                                                                {categoryTechs.slice(8).map(tech => tech.name).join(', ')}
+                                                            </div>
+                                                        </div>
                                                     )}
                                                 </div>
                                             </div>

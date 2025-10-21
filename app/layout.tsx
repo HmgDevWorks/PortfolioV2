@@ -6,8 +6,8 @@ import GoogleAnalytics from '@/components/GoogleAnalytics'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-    title: 'Héctor Martín - Desarrollador Fullstack y de Videojuegos',
-    description: 'Portfolio profesional de Héctor Martín, desarrollador fullstack especializado en React, Next.js, Laravel, Unity y desarrollo móvil. Proyectos de e-commerce, aplicaciones móviles y videojuegos.',
+    title: 'Héctor Martín García - Desarrollador Fullstack y de Videojuegos',
+    description: 'Portfolio profesional de Héctor Martín García, desarrollador fullstack especializado en React, Next.js, Laravel, Unity y desarrollo móvil. Proyectos de e-commerce, aplicaciones móviles y videojuegos.',
     keywords: [
         'desarrollador fullstack',
         'desarrollador web',
@@ -23,18 +23,18 @@ export const metadata: Metadata = {
         'Expo',
         'React Native'
     ],
-    authors: [{ name: 'Héctor Martín', url: 'https://hector-martin-portfolio.vercel.app' }],
-    creator: 'Héctor Martín',
-    publisher: 'Héctor Martín',
+    authors: [{ name: 'Héctor Martín García', url: 'https://hector-martin-portfolio.vercel.app' }],
+    creator: 'Héctor Martín García',
+    publisher: 'Héctor Martín García',
     metadataBase: new URL('https://hector-martin-portfolio.vercel.app'),
     alternates: {
         canonical: 'https://hector-martin-portfolio.vercel.app',
     },
     openGraph: {
-        title: 'Héctor Martín - Desarrollador Fullstack y de Videojuegos',
-        description: 'Portfolio profesional de Héctor Martín, desarrollador fullstack especializado en React, Next.js, Laravel, Unity y desarrollo móvil.',
+        title: 'Héctor Martín García - Desarrollador Fullstack y de Videojuegos',
+        description: 'Portfolio profesional de Héctor Martín García, desarrollador fullstack especializado en React, Next.js, Laravel, Unity y desarrollo móvil.',
         url: 'https://hector-martin-portfolio.vercel.app',
-        siteName: 'Héctor Martín Portfolio',
+        siteName: 'Héctor Martín García Portfolio',
         locale: 'es_ES',
         type: 'website',
         images: [
@@ -42,14 +42,14 @@ export const metadata: Metadata = {
                 url: 'https://via.placeholder.com/1200x630/1f2937/ffffff?text=Héctor+Martín+-+Desarrollador+Fullstack',
                 width: 1200,
                 height: 630,
-                alt: 'Héctor Martín - Desarrollador Fullstack',
+                alt: 'Héctor Martín García - Desarrollador Fullstack',
             },
         ],
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Héctor Martín - Desarrollador Fullstack y de Videojuegos',
-        description: 'Portfolio profesional de Héctor Martín, desarrollador fullstack especializado en React, Next.js, Laravel, Unity y desarrollo móvil.',
+        title: 'Héctor Martín García - Desarrollador Fullstack y de Videojuegos',
+        description: 'Portfolio profesional de Héctor Martín García, desarrollador fullstack especializado en React, Next.js, Laravel, Unity y desarrollo móvil.',
         images: ['https://via.placeholder.com/1200x630/1f2937/ffffff?text=Héctor+Martín+-+Desarrollador+Fullstack'],
     },
     robots: {
@@ -96,7 +96,7 @@ export default function RootLayout({
                         __html: JSON.stringify({
                             "@context": "https://schema.org",
                             "@type": "Person",
-                            "name": "Héctor Martín",
+                            "name": "Héctor Martín García",
                             "jobTitle": "Desarrollador Fullstack y de Videojuegos",
                             "description": "Desarrollador especializado en React, Next.js, Laravel, Unity y desarrollo móvil",
                             "url": "https://hector-martin-portfolio.vercel.app",

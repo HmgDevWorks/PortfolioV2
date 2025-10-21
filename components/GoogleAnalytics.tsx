@@ -21,7 +21,7 @@ export default function GoogleAnalytics() {
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
           gtag('config', '${GA_ID}', {
-            page_title: 'Héctor Martín - Portfolio',
+            page_title: 'Héctor Martín García - Portfolio',
             page_location: window.location.href,
           });
         `}
