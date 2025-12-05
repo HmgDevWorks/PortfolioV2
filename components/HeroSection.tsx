@@ -127,7 +127,7 @@ export default function HeroSection({ language }: HeroSectionProps) {
                         className="flex justify-center space-x-6 mb-16"
                     >
                         <motion.a
-                            href="https://github.com/hector-martin"
+                            href="https://github.com/HmgDevWorks"
                             target="_blank"
                             rel="noopener noreferrer"
                             whileHover={{ scale: 1.1, y: -2 }}
