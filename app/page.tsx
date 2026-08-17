@@ -19,8 +19,8 @@ export default function Home() {
       <Navigation language={language} setLanguage={setLanguage} />
       <HeroSection language={language} />
       <AboutSection language={language} />
-      <ProjectsSection language={language} />
       <ExperienceSection language={language} />
+      <ProjectsSection language={language} />
       <CVSection language={language} />
       <ContactSection language={language} />
       <Footer language={language} />

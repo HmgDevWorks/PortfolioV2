@@ -11,6 +11,8 @@ export interface Project {
   year: string;
   category: "web" | "mobile" | "fullstack" | "game";
   featured: boolean;
+  /** Si es true, el proyecto aparece en el CV PDF (máx. 6). Independiente de `featured`. */
+  inCv: boolean;
   tags: string[]; // Nuevo campo para tags múltiples
 }
 
@@ -23,7 +25,7 @@ export interface Contact {
 
 export interface Technology {
   name: string;
-  category: "frontend" | "backend" | "mobile" | "database" | "tools" | "cloud";
+  category: "frontend" | "backend" | "mobile" | "database" | "tools" | "cloud" | "ai";
   icon?: string;
   level: "beginner" | "intermediate" | "advanced" | "expert";
 }
@@ -37,6 +39,10 @@ export interface Experience {
   endDate?: string;
   description: string;
   descriptionEn: string;
+  // Versión extensa opcional. Solo se muestra en la web tras "Ver más";
+  // el CV en PDF usa siempre `description` para mantenerse en una página.
+  descriptionLong?: string;
+  descriptionLongEn?: string;
   technologies: string[];
   current: boolean;
 }

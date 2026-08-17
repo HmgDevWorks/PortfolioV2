@@ -13,7 +13,7 @@ function CVContent() {
     const params = useSearchParams();
     const language = (params.get('lang') as 'es' | 'en') || 'es';
 
-    const featuredProjects = projects.filter(p => p.featured);
+    const featuredProjects = projects.filter((p) => p.inCv).slice(0, 6);
 
     const content = {
         es: {
@@ -141,7 +141,7 @@ function CVContent() {
                                     {content[language].projects}
                                 </h3>
                                 <div className="grid grid-cols-2 gap-2">
-                                    {featuredProjects.slice(0, 6).map((project) => (
+                                    {featuredProjects.map((project) => (
                                         <div key={project.id} className="border border-slate-200 rounded p-2">
                                             <div className="flex items-center justify-between mb-0.5">
                                                 <div className="text-xs font-semibold text-slate-800 leading-none">{language === 'es' ? project.title : project.titleEn}</div>
@@ -230,12 +230,12 @@ function CVContent() {
                                     {content[language].technologies}
                                 </h4>
                                 <div className="space-y-2">
-                                    {['frontend', 'backend', 'mobile', 'database', 'tools', 'cloud'].map(category => {
+                                    {['ai', 'frontend', 'backend', 'mobile', 'database', 'tools', 'cloud'].map(category => {
                                         const categoryTechs = technologies.filter(t => t.category === category);
                                         if (categoryTechs.length === 0) return null;
                                         const names = {
-                                            es: { frontend: 'Frontend', backend: 'Backend', mobile: 'Mobile & Games', database: 'Bases de Datos', tools: 'Herramientas', cloud: 'Servicios Cloud' },
-                                            en: { frontend: 'Frontend', backend: 'Backend', mobile: 'Mobile & Games', database: 'Databases', tools: 'Tools', cloud: 'Cloud Services' }
+                                            es: { ai: 'IA', frontend: 'Frontend', backend: 'Backend', mobile: 'Mobile & Games', database: 'Bases de Datos', tools: 'Herramientas', cloud: 'Servicios Cloud' },
+                                            en: { ai: 'AI', frontend: 'Frontend', backend: 'Backend', mobile: 'Mobile & Games', database: 'Databases', tools: 'Tools', cloud: 'Cloud Services' }
                                         };
                                         return (
                                             <div key={category} className="border border-slate-200 rounded p-2">

@@ -9,6 +9,7 @@ interface TechnologiesSectionProps {
 
 export default function TechnologiesSection({ language }: TechnologiesSectionProps) {
     const categories = [
+        { id: 'ai', label: { es: 'IA', en: 'AI' } },
         { id: 'frontend', label: { es: 'Frontend', en: 'Frontend' } },
         { id: 'backend', label: { es: 'Backend', en: 'Backend' } },
         { id: 'mobile', label: { es: 'Mobile', en: 'Mobile' } },

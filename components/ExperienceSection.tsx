@@ -1,7 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, MapPin, Building } from 'lucide-react';
+import { Calendar, MapPin, Building, ChevronDown } from 'lucide-react';
 import { experience, education } from '@/data/personal';
 
 interface ExperienceSectionProps {
@@ -9,6 +10,8 @@ interface ExperienceSectionProps {
 }
 
 export default function ExperienceSection({ language }: ExperienceSectionProps) {
+    const [expandedId, setExpandedId] = useState<string | null>(null);
+
     const content = {
         es: {
             title: 'Experiencia',
@@ -17,6 +20,8 @@ export default function ExperienceSection({ language }: ExperienceSectionProps) 
             education: 'Educación',
             current: 'Actual',
             technologies: 'Tecnologías',
+            showMore: 'Ver más',
+            showLess: 'Ver menos',
         },
         en: {
             title: 'Experience',
@@ -25,6 +30,8 @@ export default function ExperienceSection({ language }: ExperienceSectionProps) 
             education: 'Education',
             current: 'Current',
             technologies: 'Technologies',
+            showMore: 'Show more',
+            showLess: 'Show less',
         }
     };
 
@@ -70,7 +77,11 @@ export default function ExperienceSection({ language }: ExperienceSectionProps) 
                         </h3>
 
                         <div className="space-y-8">
-                            {experience.map((exp, index) => (
+                            {experience.map((exp, index) => {
+                                const longDescription = language === 'es' ? exp.descriptionLong : exp.descriptionLongEn;
+                                const isExpanded = expandedId === exp.id;
+
+                                return (
                                 <motion.div
                                     key={exp.id}
                                     initial={{ opacity: 0, y: 20 }}
@@ -107,6 +118,34 @@ export default function ExperienceSection({ language }: ExperienceSectionProps) 
                                             {language === 'es' ? exp.description : exp.descriptionEn}
                                         </p>
 
+                                        {longDescription && (
+                                            <>
+                                                {isExpanded && (
+                                                    <motion.p
+                                                        initial={{ opacity: 0, height: 0 }}
+                                                        animate={{ opacity: 1, height: 'auto' }}
+                                                        transition={{ duration: 0.3 }}
+                                                        className="text-slate-300 mb-4 whitespace-pre-line overflow-hidden"
+                                                    >
+                                                        {longDescription}
+                                                    </motion.p>
+                                                )}
+
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setExpandedId(isExpanded ? null : exp.id)}
+                                                    aria-expanded={isExpanded}
+                                                    className="flex items-center gap-1 mb-4 text-emerald-400 hover:text-emerald-300 text-sm font-medium transition-colors"
+                                                >
+                                                    {isExpanded ? content[language].showLess : content[language].showMore}
+                                                    <ChevronDown
+                                                        size={14}
+                                                        className={`transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+                                                    />
+                                                </button>
+                                            </>
+                                        )}
+
                                         <div className="flex flex-wrap gap-2">
                                             {exp.technologies.map((tech) => (
                                                 <span
@@ -119,7 +158,8 @@ export default function ExperienceSection({ language }: ExperienceSectionProps) 
                                         </div>
                                     </div>
                                 </motion.div>
-                            ))}
+                                );
+                            })}
                         </div>
                     </motion.div>
 

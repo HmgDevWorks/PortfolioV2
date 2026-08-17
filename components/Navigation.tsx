@@ -23,8 +23,8 @@ export default function Navigation({ language, setLanguage }: NavigationProps) {
 
     const navItems = [
         { href: '#about', label: { es: 'Sobre mí', en: 'About' } },
-        { href: '#projects', label: { es: 'Proyectos', en: 'Projects' } },
         { href: '#experience', label: { es: 'Experiencia', en: 'Experience' } },
+        { href: '#projects', label: { es: 'Proyectos', en: 'Projects' } },
         { href: '#cv', label: { es: 'CV', en: 'CV' } },
         { href: '#contact', label: { es: 'Contacto', en: 'Contact' } },
     ];
