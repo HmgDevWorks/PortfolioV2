@@ -14,13 +14,13 @@
     "@hookform/resolvers": "^3.3.2",
     "framer-motion": "^10.16.16",
     "lucide-react": "^0.294.0",
-    "next": "^15.4.6",
+    "next": "^15.5.23",
     "next-intl": "^3.4.1",
     "nodemailer": "^6.9.7",
     "react": "^18",
     "react-dom": "^18",
-    "react-hook-form": "^7.48.2",
-    "sharp": "^0.33.1",
+    "react-hook-form": "^7.85.0",
+    "sharp": "^0.34.5",
     "zod": "^3.22.4"
   },
   "devDependencies": {
@@ -28,11 +28,11 @@
     "@types/nodemailer": "^6.4.14",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "@typescript-eslint/parser": "^8.39.0",
+    "@typescript-eslint/parser": "^8.67.0",
     "autoprefixer": "^10.4.16",
     "eslint": "^9",
-    "eslint-config-next": "^15.4.6",
-    "postcss": "^8.4.32",
+    "eslint-config-next": "^15.5.23",
+    "postcss": "^8.5.26",
     "tailwindcss": "^3.3.6",
     "typescript": "^5"
   }
