@@ -2,26 +2,28 @@ name: Generate Resume (PDF & Markdown)
 
 on:
   workflow_dispatch:
-    inputs:
-      site_url:
-        description: "Site URL to generate resume from"
-        required: false
-        default: "https://hmgdevworks.vercel.app"
-  push:
+  pull_request:
     branches: [main]
+    types: [opened, synchronize, reopened]
     paths-ignore:
       - "public/cvs/*"
       - "public/docs/*"
 
+permissions:
+  contents: write
+
 jobs:
   generate-resume:
     runs-on: ubuntu-latest
+    # Forks cannot push back to the PR branch.
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.head_ref || github.ref_name }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -37,75 +39,48 @@ jobs:
           path: |
             ~/.pnpm-store
             ~/.cache/puppeteer
-          key: ${{ runner.os }}-pnpm-puppeteer-${{ hashFiles('.github/scripts/generate-resume/package.json') }}
+          key: ${{ runner.os }}-pnpm-puppeteer-${{ hashFiles('pnpm-lock.yaml', '.github/scripts/generate-resume/package.json') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-puppeteer-
 
-      - name: Install dependencies and browser
+      - name: Install site dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install generator dependencies and browser
+        working-directory: .github/scripts/generate-resume
         run: |
-          cd .github/scripts/generate-resume
           pnpm install
           pnpm exec puppeteer browsers install chrome
-          cd ../../..
 
-      - name: Wait for Vercel deployment
-        if: github.event_name == 'push'
-        shell: bash
+      - name: Build and serve the site
         run: |
-          echo "🔄 Waiting for deployment with commit ${{ github.sha }} to be live..."
-          URL="https://hmgdevworks.vercel.app/build-info"
-          EXPECTED_SHA="${{ github.sha }}"
-
+          pnpm build
+          nohup pnpm start > /tmp/next-server.log 2>&1 &
           for i in {1..30}; do
-            # Fetch the live commit SHA from the build-info endpoint.
-            # The command will output "not_ready" on failure (e.g., 404).
-            LIVE_SHA=$(curl -s -f "$URL" | jq -r .commitSha || echo "not_ready")
-            
-            if [[ "$LIVE_SHA" == "$EXPECTED_SHA" ]]; then
-              echo "✅ Deployment is live with correct commit SHA!"
+            if curl -sf "http://localhost:3000/cv?lang=es" > /dev/null; then
+              echo "✅ Site is up"
               exit 0
             fi
-
-            if [ $i -eq 30 ]; then
-              echo "⚠️ Timeout after 300 seconds. Live SHA ($LIVE_SHA) does not match expected SHA ($EXPECTED_SHA)."
-              echo "Proceeding with PDF generation anyway..."
-              exit 0
-            fi
-            
-            echo "⏳ Attempt $i/30: Site not ready (Live: $LIVE_SHA). Waiting 10s..."
-            sleep 10
+            echo "⏳ Attempt $i/30: waiting for localhost:3000..."
+            sleep 2
           done
+          echo "❌ Site did not start in time"
+          cat /tmp/next-server.log
+          exit 1
 
       - name: Generate resume files (PDF & Markdown)
         env:
-          SITE_URL: ${{ github.event.inputs.site_url || 'https://hmgdevworks.vercel.app' }}
+          SITE_URL: http://localhost:3000
         run: node .github/scripts/generate-resume/index.js
 
-      - name: Check for changes
-        id: changes
+      - name: Commit updated CV files
         run: |
           git add public/cvs/CV_Hector_Martin_ES.pdf public/cvs/CV_Hector_Martin_EN.pdf
-          if ! git diff --cached --quiet; then
-            echo "changes=true" >> $GITHUB_OUTPUT
-          else
-            echo "changes=false" >> $GITHUB_OUTPUT
+          if git diff --cached --quiet; then
+            echo "📄 No changes in CV files"
+            exit 0
           fi
-
-      - name: Create Pull Request
-        if: steps.changes.outputs.changes == 'true'
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: 🤖 Auto-update CV PDFs (ES & EN) [skip ci]
-          title: "🤖 Auto-update CV PDFs"
-          body: |
-            This is an auto-generated PR to update the CV PDF files in both Spanish and English.
-            Please review the changes and merge if they are correct.
-          branch: chore/update-resume-files
-          delete-branch: true
-          reviewers: ${{ github.actor }}
-          assignees: ${{ github.actor }}
-
-      - name: No changes detected
-        if: steps.changes.outputs.changes == 'false'
-        run: echo "📄 No changes in CV files"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "🤖 Auto-update CV PDFs (ES & EN) [skip ci]"
+          git push
