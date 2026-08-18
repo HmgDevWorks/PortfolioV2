@@ -154,7 +154,7 @@ export const projects: Project[] = [
     year: "2024",
     category: "mobile",
     featured: true,
-    inCv: true,
+    inCv: false,
     tags: ["mobile", "fullstack", "expo", "react-native"],
   },
   {
@@ -172,7 +172,7 @@ export const projects: Project[] = [
     year: "2022-2024",
     category: "game",
     featured: true,
-    inCv: true,
+    inCv: false,
     tags: ["game", "mobile", "unity", "csharp"],
   },
   {
