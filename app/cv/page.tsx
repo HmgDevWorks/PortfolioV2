@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { personalInfo, experience, education } from '@/data/personal';
 import { projects } from '@/data/projects';
 import { technologies } from '@/data/technologies';
+import { experienceWebUrl } from '@/utils/site';
 
 
 function CVContent() {
@@ -115,7 +116,19 @@ function CVContent() {
                                         <div key={exp.id} className="border-l-2 border-emerald-500 pl-2">
                                             <div className="text-[13px] font-semibold text-slate-800 leading-none">{language === 'es' ? exp.position : exp.positionEn}</div>
                                             <div className="text-[11px] text-emerald-600">{exp.company} | {formatDate(exp.startDate)} - {exp.current ? content[language].current : formatDate(exp.endDate || '')}</div>
-                                            <div className="text-[11px] text-slate-700 leading-tight">{language === 'es' ? exp.description : exp.descriptionEn}</div>
+                                            <div className="text-[11px] text-slate-700 leading-tight">
+                                                {language === 'es' ? exp.description : exp.descriptionEn}
+                                                {(language === 'es' ? exp.descriptionLong : exp.descriptionLongEn) && (
+                                                    <a
+                                                        href={experienceWebUrl(exp.id, language)}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="ml-1 text-blue-600 hover:text-blue-800 font-medium whitespace-nowrap"
+                                                    >
+                                                        {language === 'es' ? 'Ver detalle ↗' : 'See details ↗'}
+                                                    </a>
+                                                )}
+                                            </div>
                                             <div className="mt-1 flex flex-wrap gap-1 items-center">
                                                 {exp.technologies.slice(0, 6).map(t => (
                                                     <span key={t} className="bg-slate-100 text-slate-700 text-[10px] px-2 py-[3px] rounded border border-slate-200 font-medium inline-block">{t}</span>
