@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, MapPin, Building, ChevronDown } from 'lucide-react';
 import { experience, education } from '@/data/personal';
+import { experienceAnchorId } from '@/utils/site';
 
 interface ExperienceSectionProps {
     language: 'es' | 'en';
@@ -11,6 +12,36 @@ interface ExperienceSectionProps {
 
 export default function ExperienceSection({ language }: ExperienceSectionProps) {
     const [expandedId, setExpandedId] = useState<string | null>(null);
+
+    // Deep links from the PDF CV (/?lang=xx#exp-<id>) open that entry already expanded.
+    useEffect(() => {
+        const targetId = window.location.hash.slice(1);
+        const target = experience.find((exp) => experienceAnchorId(exp.id) === targetId);
+        if (!target) return;
+
+        setExpandedId(target.id);
+
+        // Next.js resets the scroll position right after hydration and the entry grows
+        // while it expands, so retry until the anchor actually sits below the navbar.
+        let attempts = 0;
+        const timer = setInterval(() => {
+            if (++attempts > 10) {
+                clearInterval(timer);
+                return;
+            }
+
+            const element = document.getElementById(targetId);
+            if (!element) return;
+
+            if (Math.abs(element.getBoundingClientRect().top - 96) < 8) {
+                clearInterval(timer);
+                return;
+            }
+            element.scrollIntoView({ behavior: 'auto' });
+        }, 200);
+
+        return () => clearInterval(timer);
+    }, []);
 
     const content = {
         es: {
@@ -84,11 +115,12 @@ export default function ExperienceSection({ language }: ExperienceSectionProps) 
                                 return (
                                 <motion.div
                                     key={exp.id}
+                                    id={experienceAnchorId(exp.id)}
                                     initial={{ opacity: 0, y: 20 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.6, delay: index * 0.1 }}
                                     viewport={{ once: true }}
-                                    className="relative pl-8 border-l-2 border-emerald-500"
+                                    className="relative pl-8 border-l-2 border-emerald-500 scroll-mt-24"
                                 >
                                     <div className="absolute -left-2 top-0 w-4 h-4 bg-emerald-500 rounded-full" />
 

@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Navigation from '@/components/Navigation';
 import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
@@ -11,8 +12,11 @@ import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
 import BackToTop from '@/components/BackToTop';
 
-export default function Home() {
-  const [language, setLanguage] = useState<'es' | 'en'>('es');
+function HomeContent() {
+  const params = useSearchParams();
+  const [language, setLanguage] = useState<'es' | 'en'>(
+    params.get('lang') === 'en' ? 'en' : 'es'
+  );
 
   return (
     <main className="min-h-screen bg-slate-950">
@@ -27,4 +31,12 @@ export default function Home() {
       <BackToTop />
     </main>
   );
-} 
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<main className="min-h-screen bg-slate-950" />}>
+      <HomeContent />
+    </Suspense>
+  );
+}
