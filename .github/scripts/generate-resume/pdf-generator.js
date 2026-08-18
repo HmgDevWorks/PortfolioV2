@@ -9,12 +9,19 @@ const { execSync } = require('child_process')
 // same length as the original so the xref offsets stay valid.
 const PINNED_PDF_DATE = '20000101000000'
 
-function pinPdfTimestamps(buffer) {
-  const normalized = buffer
+function pinPdfTimestamps(pdfBytes) {
+  // page.pdf() resolves to a Uint8Array, whose toString() ignores the encoding and
+  // returns comma-separated byte values, so it has to be wrapped in a Buffer first.
+  const normalized = Buffer.from(pdfBytes)
     .toString('latin1')
     .replace(/(\/(?:CreationDate|ModDate)\s*\(D:)\d{14}(\+00'00'\))/g, `$1${PINNED_PDF_DATE}$2`)
 
-  return Buffer.from(normalized, 'latin1')
+  const pdf = Buffer.from(normalized, 'latin1')
+  if (pdf.subarray(0, 4).toString('latin1') !== '%PDF') {
+    throw new Error('Refusing to write a file that is not a PDF')
+  }
+
+  return pdf
 }
 
 async function generatePDF(siteUrl) {
