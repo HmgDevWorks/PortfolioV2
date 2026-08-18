@@ -230,25 +230,27 @@ function CVContent() {
                                     {content[language].technologies}
                                 </h4>
                                 <div className="space-y-2">
-                                    {['ai', 'frontend', 'backend', 'mobile', 'database', 'tools', 'cloud'].map(category => {
-                                        const categoryTechs = technologies.filter(t => t.category === category);
-                                        if (categoryTechs.length === 0) return null;
+                                    {(['ai', 'frontend', 'backend', 'mobile', 'database', 'cloud'] as const).map((category) => {
+                                        const categoryTechs = technologies.filter((t) => t.category === category);
+                                        const visibleTechs = categoryTechs.filter((t) => t.inCv);
+                                        if (visibleTechs.length === 0) return null;
+                                        const extraTechs = categoryTechs.filter((t) => !t.inCv);
                                         const names = {
-                                            es: { ai: 'IA', frontend: 'Frontend', backend: 'Backend', mobile: 'Mobile & Games', database: 'Bases de Datos', tools: 'Herramientas', cloud: 'Servicios Cloud' },
-                                            en: { ai: 'AI', frontend: 'Frontend', backend: 'Backend', mobile: 'Mobile & Games', database: 'Databases', tools: 'Tools', cloud: 'Cloud Services' }
+                                            es: { ai: 'IA', frontend: 'Frontend', backend: 'Backend', mobile: 'Mobile', database: 'Datos', cloud: 'Cloud' },
+                                            en: { ai: 'AI', frontend: 'Frontend', backend: 'Backend', mobile: 'Mobile', database: 'Data', cloud: 'Cloud' }
                                         };
                                         return (
                                             <div key={category} className="border border-slate-200 rounded p-2">
-                                                <div className="text-[11px] font-semibold text-slate-800 mb-1">{names[language][category as keyof typeof names.es]}</div>
+                                                <div className="text-[11px] font-semibold text-slate-800 mb-1">{names[language][category]}</div>
                                                 <div className="flex flex-wrap gap-1">
-                                                    {categoryTechs.slice(0, 8).map(tech => (
+                                                    {visibleTechs.map((tech) => (
                                                         <span key={tech.name} className="bg-slate-100 text-slate-700 text-[10px] px-2 py-[3px] rounded border border-slate-200 font-medium inline-block">{tech.name}</span>
                                                     ))}
-                                                    {categoryTechs.length > 8 && (
+                                                    {extraTechs.length > 0 && (
                                                         <div className="relative group inline-block flex">
-                                                            <span className="bg-slate-200 text-slate-600 text-[10px] px-2 py-[3px] rounded font-medium inline-block cursor-help">+{categoryTechs.length - 8}</span>
-                                                            <div className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-slate-800 text-white text-[9px] rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
-                                                                {categoryTechs.slice(8).map(tech => tech.name).join(', ')}
+                                                            <span className="bg-slate-200 text-slate-600 text-[10px] px-2 py-[3px] rounded font-medium inline-block cursor-help">+{extraTechs.length}</span>
+                                                            <div className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-slate-800 text-white text-[8px] rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                                                                {extraTechs.map((tech) => tech.name).join(', ')}
                                                             </div>
                                                         </div>
                                                     )}
