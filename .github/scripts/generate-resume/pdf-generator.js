@@ -3,6 +3,20 @@ const fs = require('fs')
 const path = require('path')
 const { execSync } = require('child_process')
 
+// Chrome stamps the current time into /CreationDate and /ModDate, so two runs over
+// the same CV produce different bytes and every build would look like a content
+// change. Pinning the value keeps the output reproducible; the replacement has the
+// same length as the original so the xref offsets stay valid.
+const PINNED_PDF_DATE = '20000101000000'
+
+function pinPdfTimestamps(buffer) {
+  const normalized = buffer
+    .toString('latin1')
+    .replace(/(\/(?:CreationDate|ModDate)\s*\(D:)\d{14}(\+00'00'\))/g, `$1${PINNED_PDF_DATE}$2`)
+
+  return Buffer.from(normalized, 'latin1')
+}
+
 async function generatePDF(siteUrl) {
   console.log('📄 Loading page for PDF generation:', siteUrl)
 
@@ -47,7 +61,7 @@ async function generatePDF(siteUrl) {
 
     const esPdfBuffer = await page.pdf(pdfOptions)
     const esCvPath = path.join(cvsDir, 'CV_Hector_Martin_ES.pdf')
-    fs.writeFileSync(esCvPath, esPdfBuffer)
+    fs.writeFileSync(esCvPath, pinPdfTimestamps(esPdfBuffer))
     console.log('✅ Spanish CV generated')
 
     // Generate English CV
@@ -60,7 +74,7 @@ async function generatePDF(siteUrl) {
 
     const enPdfBuffer = await page.pdf(pdfOptions)
     const enCvPath = path.join(cvsDir, 'CV_Hector_Martin_EN.pdf')
-    fs.writeFileSync(enCvPath, enPdfBuffer)
+    fs.writeFileSync(enCvPath, pinPdfTimestamps(enPdfBuffer))
     console.log('✅ English CV generated')
 
     console.log('✅ PDF generation completed for both languages')
