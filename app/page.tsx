@@ -1,7 +1,6 @@
 'use client';
 
-import { Suspense, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import Navigation from '@/components/Navigation';
 import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
@@ -12,11 +11,16 @@ import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
 import BackToTop from '@/components/BackToTop';
 
-function HomeContent() {
-  const params = useSearchParams();
-  const [language, setLanguage] = useState<'es' | 'en'>(
-    params.get('lang') === 'en' ? 'en' : 'es'
-  );
+export default function Home() {
+  const [language, setLanguage] = useState<'es' | 'en'>('es');
+
+  // Deep links from the PDF CV carry ?lang=. It is read here instead of with
+  // useSearchParams because that hook would opt the whole page out of prerendering.
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('lang') === 'en') {
+      setLanguage('en');
+    }
+  }, []);
 
   return (
     <main className="min-h-screen bg-slate-950">
@@ -30,13 +34,5 @@ function HomeContent() {
       <Footer language={language} />
       <BackToTop />
     </main>
-  );
-}
-
-export default function Home() {
-  return (
-    <Suspense fallback={<main className="min-h-screen bg-slate-950" />}>
-      <HomeContent />
-    </Suspense>
   );
 }
