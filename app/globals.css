@@ -12,6 +12,57 @@
   }
 }
 
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+@media print {
+  html,
+  body {
+    background: #ffffff !important;
+    color: #1e293b !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    overflow: hidden !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .cv-print-root {
+    background: #ffffff !important;
+    min-height: 0 !important;
+    height: 297mm !important;
+    max-height: 297mm !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .cv-sheet {
+    width: 210mm !important;
+    max-width: 210mm !important;
+    min-height: 0 !important;
+    height: 297mm !important;
+    max-height: 297mm !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+  }
+
+  .cv-sheet-inner {
+    width: 210mm !important;
+    min-height: 0 !important;
+    height: 297mm !important;
+    max-height: 297mm !important;
+    padding: 8mm !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+}
+
 @layer components {
   .gradient-text {
     @apply bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent;

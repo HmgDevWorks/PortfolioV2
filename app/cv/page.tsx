@@ -55,7 +55,7 @@ function CVContent() {
 
 
     return (
-        <div className="min-h-screen bg-slate-900 py-6 print:bg-white print:py-0">
+        <div className="cv-print-root min-h-screen bg-slate-900 py-6 print:bg-white print:py-0">
             <div className="max-w-5xl mx-auto mb-4 px-4 flex items-center justify-between text-slate-200 print:hidden">
                 <h1 className="text-xl font-semibold">{content[language].title}</h1>
                 <a
@@ -69,10 +69,10 @@ function CVContent() {
             </div>
 
             {/* A4 canvas - 210mm x 297mm */}
-            <div className="bg-white shadow-2xl mx-auto print:shadow-none print:mx-0 print:w-full" style={{ width: '210mm' }}>
-                <div ref={containerRef} className="p-6 print:p-4" style={{ width: '210mm', minHeight: '297mm' }}>
+            <div className="cv-sheet bg-white shadow-2xl mx-auto w-[210mm] print:shadow-none print:mx-0">
+                <div ref={containerRef} className="cv-sheet-inner p-6 w-[210mm] min-h-[297mm]">
                     {/* Header */}
-                    <div className="text-center mb-6">
+                    <div className="text-center mb-6 print:mb-3">
                         <h2 className="text-3xl font-bold text-slate-800 mb-1">{personalInfo.name}</h2>
                         <p className="text-slate-600">{language === 'es' ? personalInfo.title : personalInfo.titleEn}</p>
                         <div className="mt-3 flex justify-center space-x-6 text-sm text-slate-500">
@@ -92,9 +92,9 @@ function CVContent() {
                     </div>
 
                     {/* Grid */}
-                    <div className="grid grid-cols-10 gap-4">
+                    <div className="grid grid-cols-10 gap-4 print:gap-3">
                         {/* Left 7/10 */}
-                        <div className="col-span-7 space-y-4">
+                        <div className="col-span-7 space-y-4 print:space-y-2">
                             {/* About */}
                             <div>
                                 <h3 className="text-sm font-bold text-slate-800 mb-2 border-b-2 border-emerald-500 pb-1 flex items-center gap-2">
@@ -110,7 +110,7 @@ function CVContent() {
                                     <span className="w-4 h-4 bg-emerald-500 rounded-full flex items-center justify-center text-white text-xs">💼</span>
                                     {content[language].experience}
                                 </h3>
-                                <div className="space-y-2">
+                                <div className="space-y-2 print:space-y-1.5">
                                     {experience.map((exp) => (
                                         <div key={exp.id} className="border-l-2 border-emerald-500 pl-2">
                                             <div className="text-[13px] font-semibold text-slate-800 leading-none">{language === 'es' ? exp.position : exp.positionEn}</div>
@@ -179,9 +179,9 @@ function CVContent() {
                         </div>
 
                         {/* Right 3/10 */}
-                        <div className="col-span-3 space-y-4">
-                            {/* Personal Info */}
-                            <div className="bg-slate-50 rounded p-3">
+                        <div className="col-span-3 space-y-4 print:space-y-2">
+                            {/* Personal Info — hidden in PDF; already in the header */}
+                            <div className="bg-slate-50 rounded p-3 print:hidden">
                                 <h4 className="text-sm font-bold text-slate-800 mb-2 flex items-center gap-2">
                                     <span className="w-4 h-4 bg-emerald-500 rounded-full flex items-center justify-center text-white text-xs">👤</span>
                                     {content[language].personalInfo}

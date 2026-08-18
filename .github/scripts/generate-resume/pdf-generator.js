@@ -13,20 +13,19 @@ async function generatePDF(siteUrl) {
 
   try {
     const page = await browser.newPage()
-    await page.setViewport({ width: 1240, height: 1754, deviceScaleFactor: 2 })
+    await page.setViewport({ width: 794, height: 1123, deviceScaleFactor: 2 })
 
     const pdfOptions = {
       format: 'A4',
       printBackground: true,
       margin: {
-        top: '5mm',
-        right: '5mm',
-        bottom: '5mm',
-        left: '5mm',
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
       },
       preferCSSPageSize: true,
-      width: '210mm',
-      height: '297mm',
+      pageRanges: '1',
     }
 
     // Save PDF files
