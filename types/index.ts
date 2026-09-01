@@ -1,3 +1,5 @@
+export type ProjectStatus = "coming-soon" | "wip" | "v2" | "prototype";
+
 export interface Project {
   id: string;
   title: string;
@@ -13,6 +15,7 @@ export interface Project {
   featured: boolean;
   /** Si es true, el proyecto aparece en el CV PDF. Independiente de `featured`. */
   inCv: boolean;
+  status?: ProjectStatus;
   tags: string[]; // Nuevo campo para tags múltiples
 }
 

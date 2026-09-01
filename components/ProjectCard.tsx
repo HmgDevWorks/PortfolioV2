@@ -2,13 +2,27 @@
 
 import { motion } from 'framer-motion';
 import { ExternalLink, Github, ArrowRight } from 'lucide-react';
-import { Project } from '@/types';
+import { Project, ProjectStatus } from '@/types';
 
 interface ProjectCardProps {
     project: Project;
     language: 'es' | 'en';
     index?: number;
 }
+
+const STATUS_STYLES: Record<ProjectStatus, string> = {
+    'coming-soon': 'bg-amber-500/20 border-amber-500/30 text-amber-400',
+    wip: 'bg-sky-500/20 border-sky-500/30 text-sky-400',
+    v2: 'bg-violet-500/20 border-violet-500/30 text-violet-400',
+    prototype: 'bg-fuchsia-500/20 border-fuchsia-500/30 text-fuchsia-400',
+};
+
+const STATUS_LABELS: Record<ProjectStatus, { es: string; en: string }> = {
+    'coming-soon': { es: 'Próximamente', en: 'Coming soon' },
+    wip: { es: 'WIP', en: 'WIP' },
+    v2: { es: 'Hacia V2', en: 'Towards V2' },
+    prototype: { es: 'Prototipo', en: 'Prototype' },
+};
 
 export default function ProjectCard({ project, language, index = 0 }: ProjectCardProps) {
     const techColors: { [key: string]: string } = {
@@ -138,15 +152,19 @@ export default function ProjectCard({ project, language, index = 0 }: ProjectCar
 
                 {/* Content */}
                 <div className="p-6">
-                    <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-start justify-between gap-3 mb-3">
                         <h3 className="text-xl font-bold text-white group-hover:text-emerald-400 transition-colors duration-300">
                             {language === 'es' ? project.title : project.titleEn}
                         </h3>
-                        {project.featured && (
-                            <span className="px-2 py-1 bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-xs rounded-full">
-                                Destacado
+                        {project.status ? (
+                            <span className={`shrink-0 px-2 py-1 border text-xs rounded-full ${STATUS_STYLES[project.status]}`}>
+                                {STATUS_LABELS[project.status][language]}
                             </span>
-                        )}
+                        ) : project.featured ? (
+                            <span className="shrink-0 px-2 py-1 bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-xs rounded-full">
+                                {language === 'es' ? 'Destacado' : 'Featured'}
+                            </span>
+                        ) : null}
                     </div>
 
                     <p className="text-slate-400 mb-4 line-clamp-3">

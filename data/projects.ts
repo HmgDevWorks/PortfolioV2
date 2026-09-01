@@ -26,6 +26,7 @@ export const projects: Project[] = [
     category: "fullstack",
     featured: true,
     inCv: true,
+    status: "coming-soon",
     tags: [
       "fullstack",
       "web",
@@ -60,6 +61,7 @@ export const projects: Project[] = [
     category: "fullstack",
     featured: true,
     inCv: true,
+    status: "wip",
     tags: [
       "fullstack",
       "web",
@@ -93,6 +95,7 @@ export const projects: Project[] = [
     category: "fullstack",
     featured: true,
     inCv: true,
+    status: "prototype",
     tags: [
       "fullstack",
       "web",
@@ -127,7 +130,7 @@ export const projects: Project[] = [
     year: "2025",
     category: "fullstack",
     featured: true,
-    inCv: true,
+    inCv: false,
     tags: [
       "fullstack",
       "enterprise",
@@ -172,7 +175,8 @@ export const projects: Project[] = [
     year: "2022-2024",
     category: "game",
     featured: true,
-    inCv: false,
+    inCv: true,
+    status: "v2",
     tags: ["game", "mobile", "unity", "csharp"],
   },
   {
