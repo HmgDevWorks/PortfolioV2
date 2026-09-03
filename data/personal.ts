@@ -147,7 +147,7 @@ export const education: Education[] = [
     institution: "Certificado Desarrollo de Aplicaciones con tecnologías web",
     degree: "Desarrollo de Aplicaciones Web",
     degreeEn: "Web Application Development",
-    startDate: "2024-01",
+    startDate: "2024-09",
     endDate: "2025-01",
     description: "Certificación en desarrollo de aplicaciones web.",
     descriptionEn: "Web application development certification.",
