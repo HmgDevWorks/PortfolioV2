@@ -11,29 +11,30 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@hookform/resolvers": "^3.3.2",
     "framer-motion": "^10.16.16",
     "lucide-react": "^0.294.0",
-    "next": "^15.5.23",
-    "next-intl": "^3.4.1",
-    "nodemailer": "^6.9.7",
+    "next": "^15.5.29",
+    "nodemailer": "^10.6.0",
     "react": "^18",
     "react-dom": "^18",
-    "react-hook-form": "^7.85.0",
-    "sharp": "^0.34.5",
-    "zod": "^3.22.4"
+    "sharp": "^0.35.5"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/nodemailer": "^6.4.14",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "@typescript-eslint/parser": "^8.67.0",
-    "autoprefixer": "^10.4.16",
-    "eslint": "^9",
-    "eslint-config-next": "^15.5.23",
-    "postcss": "^8.5.26",
-    "tailwindcss": "^3.3.6",
-    "typescript": "^5"
+    "@types/node": "^20.19.43",
+    "@types/nodemailer": "^8.0.2",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "@typescript-eslint/parser": "^8.73.0",
+    "autoprefixer": "^10.6.2",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^15.5.29",
+    "postcss": "^8.5.33",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.9.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "next>postcss": "^8.5.33"
+    }
   }
 }
