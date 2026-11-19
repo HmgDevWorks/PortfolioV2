@@ -59,7 +59,7 @@ pnpm dev
 
 ## 📊 Google Tag Manager
 
-La etiqueta de Google (contenedor `GTM-P8K46Z5D`) se carga en todas las páginas desde `components/GoogleAnalytics.tsx`, que usa `app/layout.tsx`. El ID va en el propio componente (es público, no es un secreto): para cambiar de contenedor, cambia `GTM_ID` ahí. Qué se mide (Google Analytics 4 u otras etiquetas) se configura en Tag Manager, no en el código.
+La etiqueta de Google (contenedor `GTM-P8K46Z5D`) se carga solo después de que el visitante acepte, desde `components/CookieConsent.tsx` (banner de consentimiento, presente en `/` y `/cv`). La elección se guarda en `localStorage` con la clave `cookie-consent` (`granted` o `denied`) y se puede cambiar desde «Configurar cookies» en el pie de página. La política de cookies es `app/cookies/page.tsx` (`/cookies`). El ID va en el propio componente (es público, no es un secreto): para cambiar de contenedor, cambia `GTM_ID` ahí. Qué se mide (Google Analytics 4 u otras etiquetas) se configura en Tag Manager, no en el código.
 
 ## 📊 Vercel Web Analytics
 
@@ -112,7 +112,7 @@ PortfolioV2/
 │   ├── HeroSection.tsx    # Sección hero
 │   ├── ProjectsSection.tsx # Sección proyectos
 │   ├── CVModal.tsx        # Modal del CV
-│   └── GoogleAnalytics.tsx # Analytics
+│   └── CookieConsent.tsx  # Banner de cookies y carga de GTM
 ├── data/                  # Datos estáticos
 │   ├── personal.ts        # Información personal
 │   ├── projects.ts        # Proyectos

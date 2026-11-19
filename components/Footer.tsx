@@ -15,12 +15,16 @@ export default function Footer({ language }: FooterProps) {
             by: 'por',
             rights: 'Todos los derechos reservados.',
             backToTop: 'Volver arriba',
+            cookiePolicy: 'Política de cookies',
+            cookieSettings: 'Configurar cookies',
         },
         en: {
             madeWith: 'Made with',
             by: 'by',
             rights: 'All rights reserved.',
             backToTop: 'Back to top',
+            cookiePolicy: 'Cookie policy',
+            cookieSettings: 'Cookie settings',
         }
     };
 
@@ -120,6 +124,21 @@ export default function Footer({ language }: FooterProps) {
                 >
                     <p className="text-slate-400 text-sm">
                         © {new Date().getFullYear()} {personalInfo.name}. {content[language].rights}
+                    </p>
+                    <p className="text-slate-400 text-sm mt-2 flex items-center justify-center gap-4 flex-wrap">
+                        <a
+                            href={language === 'es' ? '/cookies' : '/cookies?lang=en'}
+                            className="hover:text-emerald-400 underline transition-colors duration-300"
+                        >
+                            {content[language].cookiePolicy}
+                        </a>
+                        <button
+                            type="button"
+                            onClick={() => window.dispatchEvent(new Event('cookie-consent:open'))}
+                            className="hover:text-emerald-400 underline transition-colors duration-300"
+                        >
+                            {content[language].cookieSettings}
+                        </button>
                     </p>
                     <p className="text-slate-500 text-xs mt-2 flex items-center justify-center space-x-1">
                         <span>{content[language].madeWith}</span>
