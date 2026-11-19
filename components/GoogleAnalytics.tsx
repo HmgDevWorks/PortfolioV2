@@ -1,31 +1,22 @@
-'use client';
-
 import Script from 'next/script';
 
+// Google Tag Manager container of the portfolio (public ID, not a secret).
+const GTM_ID = 'GTM-P8K46Z5D';
+
 export default function GoogleAnalytics() {
-    const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
-
-    if (!GA_ID) {
-        return null;
-    }
-
     return (
         <>
             <Script
-                src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+                src={`https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`}
                 strategy="afterInteractive"
             />
-            <Script id="google-analytics" strategy="afterInteractive">
+            <Script id="google-tag" strategy="afterInteractive">
                 {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', '${GA_ID}', {
-            page_title: 'Héctor Martín García - Portfolio',
-            page_location: window.location.href,
-          });
         `}
             </Script>
         </>
     );
-} 
+}

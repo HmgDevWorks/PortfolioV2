@@ -8,7 +8,7 @@ Portfolio profesional desarrollado con **Next.js 14**, **TypeScript** y **Tailwi
 - 📱 **Multiplataforma**: Optimizado para móvil, tablet y desktop
 - 🌍 **Bilingüe**: Soporte para español e inglés
 - 📊 **SEO Optimizado**: Meta tags, structured data, sitemap
-- 📈 **Analytics**: Integración con Google Analytics y Vercel Web Analytics
+- 📈 **Analytics**: Google Tag Manager y Vercel Web Analytics
 - 📄 **CV Dinámico**: Generación automática de PDF
 - 🏷️ **Sistema de Tags**: Proyectos en múltiples categorías
 - ⚡ **Performance**: Optimizado para velocidad
@@ -49,9 +49,6 @@ Edita `.env.local` con tus datos:
 # Email Configuration (para el formulario de contacto)
 EMAIL_USER=tu-email@gmail.com
 EMAIL_PASS=tu-contraseña-de-aplicación
-
-# Google Analytics (opcional)
-NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 ```
 
 4. **Ejecutar en desarrollo**
@@ -60,22 +57,9 @@ NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 pnpm dev
 ```
 
-## 📊 Configuración de Google Analytics
+## 📊 Google Tag Manager
 
-### ¿Qué es NEXT_PUBLIC_GA_ID?
-
-Esta variable se usa para rastrear el tráfico de tu portfolio:
-
-- **G-XXXXXXXXXX**: Es tu ID de Google Analytics 4 (GA4)
-- **Sirve para**: Ver cuántas visitas tienes, de dónde vienen, qué páginas ven más
-- **Es opcional**: Solo la necesitas si quieres analíticas
-
-### Cómo obtener tu GA ID:
-
-1. Ve a [Google Analytics](https://analytics.google.com/)
-2. Crea una nueva propiedad
-3. Copia el ID que aparece (formato: G-XXXXXXXXXX)
-4. Añádelo a tu `.env.local`
+La etiqueta de Google (contenedor `GTM-P8K46Z5D`) se carga en todas las páginas desde `components/GoogleAnalytics.tsx`, que usa `app/layout.tsx`. El ID va en el propio componente (es público, no es un secreto): para cambiar de contenedor, cambia `GTM_ID` ahí. Qué se mide (Google Analytics 4 u otras etiquetas) se configura en Tag Manager, no en el código.
 
 ## 📊 Vercel Web Analytics
 
@@ -172,7 +156,6 @@ Los proyectos pueden aparecer en múltiples categorías:
 ```env
 EMAIL_USER=tu-email@gmail.com
 EMAIL_PASS=tu-contraseña-de-aplicación
-NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 ```
 
 ## 📝 Personalización
