@@ -8,7 +8,7 @@ Portfolio profesional desarrollado con **Next.js 14**, **TypeScript** y **Tailwi
 - 📱 **Multiplataforma**: Optimizado para móvil, tablet y desktop
 - 🌍 **Bilingüe**: Soporte para español e inglés
 - 📊 **SEO Optimizado**: Meta tags, structured data, sitemap
-- 📈 **Analytics**: Integración con Google Analytics
+- 📈 **Analytics**: Integración con Google Analytics y Vercel Web Analytics
 - 📄 **CV Dinámico**: Generación automática de PDF
 - 🏷️ **Sistema de Tags**: Proyectos en múltiples categorías
 - ⚡ **Performance**: Optimizado para velocidad
@@ -76,6 +76,12 @@ Esta variable se usa para rastrear el tráfico de tu portfolio:
 2. Crea una nueva propiedad
 3. Copia el ID que aparece (formato: G-XXXXXXXXXX)
 4. Añádelo a tu `.env.local`
+
+## 📊 Vercel Web Analytics
+
+Las visitas se cuentan con Vercel Web Analytics (gratuito, sin cookies y sin banner de consentimiento).
+El componente `<Analytics />` está en `app/layout.tsx`.
+Para activarlo, pulsa «Enable» en la pestaña Analytics del proyecto `portfolio-v2` en Vercel.
 
 ## 🔍 SEO y Optimización
 
