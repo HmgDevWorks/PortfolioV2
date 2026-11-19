@@ -7,6 +7,7 @@ import { personalInfo, experience, education } from '@/data/personal';
 import { projects } from '@/data/projects';
 import { technologies } from '@/data/technologies';
 import { experienceWebUrl } from '@/utils/site';
+import CookieConsent from '@/components/CookieConsent';
 
 
 function CVContent() {
@@ -56,6 +57,7 @@ function CVContent() {
 
 
     return (
+        <>
         <div className="cv-print-root min-h-screen bg-slate-900 py-6 print:bg-white print:py-0">
             <div className="max-w-5xl mx-auto mb-4 px-4 flex items-center justify-between text-slate-200 print:hidden">
                 <h1 className="text-xl font-semibold">{content[language].title}</h1>
@@ -278,6 +280,8 @@ function CVContent() {
                 </div>
             </div>
         </div>
+        <CookieConsent language={language} />
+        </>
     );
 }
 

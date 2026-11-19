@@ -87,8 +87,9 @@ export default function ContactSection({ language }: ContactSectionProps) {
         return true;
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const honeypot = e.currentTarget.elements.namedItem('website');
 
         if (!validateForm()) {
             setSubmitStatus('error');
@@ -106,7 +107,10 @@ export default function ContactSection({ language }: ContactSectionProps) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({
+                    ...formData,
+                    website: honeypot instanceof HTMLInputElement ? honeypot.value : '',
+                }),
             });
 
             if (response.ok) {
@@ -152,6 +156,15 @@ export default function ContactSection({ language }: ContactSectionProps) {
                         viewport={{ once: true }}
                     >
                         <form onSubmit={handleSubmit} className="space-y-6">
+                            {/* Honeypot: hidden from people and assistive tech; bots fill it. */}
+                            <input
+                                type="text"
+                                name="website"
+                                tabIndex={-1}
+                                autoComplete="off"
+                                aria-hidden="true"
+                                className="hidden"
+                            />
                             <div className="grid md:grid-cols-2 gap-6">
                                 <div>
                                     <label htmlFor="name" className="block text-white font-medium mb-2">

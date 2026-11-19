@@ -10,6 +10,7 @@ import CVSection from '@/components/CVSection';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
 import BackToTop from '@/components/BackToTop';
+import CookieConsent from '@/components/CookieConsent';
 
 export default function Home() {
   const [language, setLanguage] = useState<'es' | 'en'>('es');
@@ -33,6 +34,7 @@ export default function Home() {
       <ContactSection language={language} />
       <Footer language={language} />
       <BackToTop />
+      <CookieConsent language={language} />
     </main>
   );
 }

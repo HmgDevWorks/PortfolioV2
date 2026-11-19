@@ -8,7 +8,7 @@ Portfolio profesional desarrollado con **Next.js 14**, **TypeScript** y **Tailwi
 - 📱 **Multiplataforma**: Optimizado para móvil, tablet y desktop
 - 🌍 **Bilingüe**: Soporte para español e inglés
 - 📊 **SEO Optimizado**: Meta tags, structured data, sitemap
-- 📈 **Analytics**: Integración con Google Analytics
+- 📈 **Analytics**: Google Tag Manager y Vercel Web Analytics
 - 📄 **CV Dinámico**: Generación automática de PDF
 - 🏷️ **Sistema de Tags**: Proyectos en múltiples categorías
 - ⚡ **Performance**: Optimizado para velocidad
@@ -49,9 +49,6 @@ Edita `.env.local` con tus datos:
 # Email Configuration (para el formulario de contacto)
 EMAIL_USER=tu-email@gmail.com
 EMAIL_PASS=tu-contraseña-de-aplicación
-
-# Google Analytics (opcional)
-NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 ```
 
 4. **Ejecutar en desarrollo**
@@ -60,22 +57,15 @@ NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 pnpm dev
 ```
 
-## 📊 Configuración de Google Analytics
+## 📊 Google Tag Manager
 
-### ¿Qué es NEXT_PUBLIC_GA_ID?
+La etiqueta de Google (contenedor `GTM-P8K46Z5D`) se carga solo después de que el visitante acepte, desde `components/CookieConsent.tsx` (banner de consentimiento, presente en `/` y `/cv`). La elección se guarda en `localStorage` con la clave `cookie-consent` (`granted` o `denied`) y se puede cambiar desde «Configurar cookies» en el pie de página. La política de cookies es `app/cookies/page.tsx` (`/cookies`). El ID va en el propio componente (es público, no es un secreto): para cambiar de contenedor, cambia `GTM_ID` ahí. Qué se mide (Google Analytics 4 u otras etiquetas) se configura en Tag Manager, no en el código.
 
-Esta variable se usa para rastrear el tráfico de tu portfolio:
+## 📊 Vercel Web Analytics
 
-- **G-XXXXXXXXXX**: Es tu ID de Google Analytics 4 (GA4)
-- **Sirve para**: Ver cuántas visitas tienes, de dónde vienen, qué páginas ven más
-- **Es opcional**: Solo la necesitas si quieres analíticas
-
-### Cómo obtener tu GA ID:
-
-1. Ve a [Google Analytics](https://analytics.google.com/)
-2. Crea una nueva propiedad
-3. Copia el ID que aparece (formato: G-XXXXXXXXXX)
-4. Añádelo a tu `.env.local`
+Las visitas se cuentan con Vercel Web Analytics (gratuito, sin cookies y sin banner de consentimiento).
+El componente `<Analytics />` está en `app/layout.tsx`.
+Para activarlo, pulsa «Enable» en la pestaña Analytics del proyecto `portfolio-v2` en Vercel.
 
 ## 🔍 SEO y Optimización
 
@@ -122,7 +112,7 @@ PortfolioV2/
 │   ├── HeroSection.tsx    # Sección hero
 │   ├── ProjectsSection.tsx # Sección proyectos
 │   ├── CVModal.tsx        # Modal del CV
-│   └── GoogleAnalytics.tsx # Analytics
+│   └── CookieConsent.tsx  # Banner de cookies y carga de GTM
 ├── data/                  # Datos estáticos
 │   ├── personal.ts        # Información personal
 │   ├── projects.ts        # Proyectos
@@ -166,7 +156,6 @@ Los proyectos pueden aparecer en múltiples categorías:
 ```env
 EMAIL_USER=tu-email@gmail.com
 EMAIL_PASS=tu-contraseña-de-aplicación
-NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 ```
 
 ## 📝 Personalización
