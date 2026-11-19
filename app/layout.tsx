@@ -64,7 +64,7 @@ export const metadata: Metadata = {
         },
     },
     verification: {
-        google: 'tu-google-verification-code',
+        google: 'YsxEUsHAHpGB1vC26zrSbgdfeRgARW7vjWmYJeomhmo',
     },
     category: 'technology',
     classification: 'Portfolio profesional de desarrollo',
