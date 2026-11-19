@@ -161,6 +161,25 @@ export const projects: Project[] = [
     tags: ["mobile", "fullstack", "expo", "react-native"],
   },
   {
+    id: "hashfork",
+    title: "Hashfork",
+    titleEn: "Hashfork",
+    description:
+      "Juego idle para Android sobre minar un bitcoin ficticio: mineros, mejoras, forks y árbol de habilidades. Web + Capacitor, compras con Google Play Billing, anuncios recompensados con AdMob y landing en Next.js.",
+    descriptionEn:
+      "Idle game for Android about mining a fictional bitcoin: miners, upgrades, forks and a skill tree. Web + Capacitor, Google Play Billing purchases, AdMob rewarded ads and a Next.js landing page.",
+    image: "",
+    technologies: ["JavaScript", "Capacitor", "Android", "Google Play Billing", "AdMob", "Next.js"],
+    github: undefined,
+    live: "https://hashfork.vercel.app",
+    year: "2026",
+    category: "game",
+    featured: true,
+    inCv: false,
+    status: "coming-soon",
+    tags: ["game", "mobile", "android", "capacitor", "idle"],
+  },
+  {
     id: "taisai",
     title: "Taisai",
     titleEn: "Taisai",

@@ -23,17 +23,17 @@ export const metadata: Metadata = {
         'Expo',
         'React Native'
     ],
-    authors: [{ name: 'Héctor Martín García', url: 'https://hector-martin-portfolio.vercel.app' }],
+    authors: [{ name: 'Héctor Martín García', url: 'https://hmgdevworks.vercel.app' }],
     creator: 'Héctor Martín García',
     publisher: 'Héctor Martín García',
-    metadataBase: new URL('https://hector-martin-portfolio.vercel.app'),
+    metadataBase: new URL('https://hmgdevworks.vercel.app'),
     alternates: {
-        canonical: 'https://hector-martin-portfolio.vercel.app',
+        canonical: 'https://hmgdevworks.vercel.app',
     },
     openGraph: {
         title: 'Héctor Martín García - Desarrollador Fullstack y de Videojuegos',
         description: 'Portfolio profesional de Héctor Martín García, desarrollador fullstack especializado en React, Next.js, Laravel, Unity y desarrollo móvil.',
-        url: 'https://hector-martin-portfolio.vercel.app',
+        url: 'https://hmgdevworks.vercel.app',
         siteName: 'Héctor Martín García Portfolio',
         locale: 'es_ES',
         type: 'website',
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
         },
     },
     verification: {
-        google: 'tu-google-verification-code',
+        google: 'YsxEUsHAHpGB1vC26zrSbgdfeRgARW7vjWmYJeomhmo',
     },
     category: 'technology',
     classification: 'Portfolio profesional de desarrollo',
@@ -99,7 +99,7 @@ export default function RootLayout({
                             "name": "Héctor Martín García",
                             "jobTitle": "Desarrollador Fullstack y de Videojuegos",
                             "description": "Desarrollador especializado en React, Next.js, Laravel, Unity y desarrollo móvil",
-                            "url": "https://hector-martin-portfolio.vercel.app",
+                            "url": "https://hmgdevworks.vercel.app",
                             "email": "HmgDevWorks@gmail.com",
                             "telephone": "+34 654 91 75 04",
                             "address": {

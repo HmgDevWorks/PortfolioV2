@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/api/", "/_next/", "/admin/"],
     },
-    sitemap: "https://hector-martin-portfolio.vercel.app/sitemap.xml",
+    sitemap: "https://hmgdevworks.vercel.app/sitemap.xml",
   };
 }
